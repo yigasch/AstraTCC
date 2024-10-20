@@ -1,0 +1,87 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    background-color: white;
+}
+
+div.estatisticas {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+    padding-top: 1em;
+}
+
+h2 {
+    color: #F56670;
+    padding: 0 0 0.5em 1em;
+}
+
+.estatisticas>section {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 1em;
+}
+
+.span{
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    margin: 0.6em 0;
+}
+.s1 {
+    color: #F56670
+}
+
+.s2 {
+    color: #B556E4;
+}
+
+.s3 {
+    color: #5BAAE1;
+}
+
+.notif-shortcut>div {
+    /* div medicamento e agua */
+    margin: 1em;
+    padding: 1em;
+    border-radius: 1.5em;
+    color: #EFEFEF;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+div.medicamento {
+    background-color: #9C70D4;
+}
+
+div.agua {
+    background-color: #6399BD;
+}
+
+section {
+    /* h3 e p */
+    width: 76%;
+}
+
+section>p {
+    font-size: 15px;
+    margin: 0.6em 0;
+}

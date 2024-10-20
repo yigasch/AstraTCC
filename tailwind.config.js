@@ -8,7 +8,7 @@ module.exports = {
         'petblue': '#7892F1',
       },
       fontFamily: {
-        roboto: ['Roboto Flex', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
       }
     },
   },

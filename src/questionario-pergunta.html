@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="flex flex-col justify-around space-y-4 items-center h-screen *:font-roboto">
+
+    <div class="w-10/12 bg-[#B8B8B8] rounded-3xl h-5">
+        <div class="w-2/12 bg-[#F56670] rounded-3xl h-5"></div>
+    </div>
+
+    <div class="w-4/5 text-[#868686] *:text-center  flex flex-col items-center">
+        <h1 class="font-bold text-2xl mb-2">Quanto tempo você costuma dormir à noite?</h1>
+    </div>
+
+    <div class="flex flex-col space-y-4 text-[#808080] roboto-medium w-8/12 text-center">
+        <label class="">
+            <input type="radio" name="question" value="option1" class="sr-only peer" />
+            <div
+                class="peer-checked:border-[#4C5DC2] peer-checked:ring-1 peer-checked:ring-[#4C5DC2] peer-checked:bg-[#d7d9e8] border-2 border-[#A4A4A4] rounded-full p-4">
+                Menos de 6 horas
+            </div>
+        </label>
+
+        <label class="">
+            <input type="radio" name="question" value="option2" class="sr-only peer" />
+            <div
+                class="peer-checked:border-[#4C5DC2] peer-checked:ring-1 peer-checked:ring-[#4C5DC2] peer-checked:bg-[#d7d9e8] border-2 border-[#A4A4A4] rounded-full p-4">
+                Entre 6 e 8 horas
+            </div>
+        </label>
+
+        <label class="">
+            <input type="radio" name="question" value="option2" class="sr-only peer" />
+            <div
+                class="peer-checked:border-[#4C5DC2] peer-checked:ring-1 peer-checked:ring-[#4C5DC2] peer-checked:bg-[#d7d9e8] border-2 border-[#A4A4A4] rounded-full p-4">
+                Entre 8 e 10 horas
+            </div>
+        </label>
+
+        <label class="">
+            <input type="radio" name="question" value="option2" class="sr-only peer" />
+            <div
+                class="peer-checked:border-[#4C5DC2] peer-checked:ring-1 peer-checked:ring-[#4C5DC2] peer-checked:bg-[#d7d9e8] border-2 border-[#A4A4A4] rounded-full p-4">
+                Mais de 10 horas
+            </div>
+        </label>
+    </div>
+
+    <div class="w-8/12 h-1/4 flex items-center justify-center">
+        <button class="w-full p-3 bg-[#4C5DC2] text-white rounded-3xl hover:border-2">Continuar</button>
+    </div>
+
+</body>
+
+</html>

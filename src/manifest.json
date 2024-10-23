@@ -5,11 +5,39 @@
     "short_name": "Astra",
     "id": "astrapersona",
     "start_url": "/login.html",
+    "orientation": "portrait-primary",
+    "display": "standalone",
     "description": "Embarque na sua jornada de autocuidado e bem-estar com o Astra!",
     "categories": [
       "food",
       "health",
       "lifestyle",
       "productivity"
-    ]
+    ],
+    "icons": [
+        {
+          "src": "icons/manifest-icon-192.maskable.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icons/manifest-icon-192.maskable.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "maskable"
+        },
+        {
+          "src": "icons/manifest-icon-512.maskable.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icons/manifest-icon-512.maskable.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ]
   }

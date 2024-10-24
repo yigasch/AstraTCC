@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../output.css">
+</head>
+
+<body class="bg-[#EFEFEF] roboto-bold text-[#868686] text-2xl h-screen w-screen">
+
+    <header class="flex flex-row items-center p-4 space-x-5 bg-blue text-white w-full">
+        <a href="perfil.html"><img src="../assets/icon/Undo-white.png" alt="Retornar"></a>
+        <h1 class="text-lg w-1/3">Acessibilidade</h1>
+    </header>
+
+    <main class="h-5/6 p-4 space-y-8 w-full">
+
+        <div id="config" class="flex flex-col px-8">
+            <label class="">
+                <input id="Talkback" type="checkbox">Talkback
+            </label>
+            <label><input id="negrito" type="checkbox">Texto em negrito</label>
+        </div>
+
+        <div id="cores">
+            <p>Otimização das cores</p>
+            <div class="grid grid-cols-2 gap-2 text-lg ">
+                <p id="deut">Deuteranomalia</p>
+                <p id="prot">Protanomalia</p>
+                <p id="Trit">Tritanomalia</p>
+                <p id="cinza">Escalas de cinza</p>
+            </div>
+        </div>
+
+        <div id="Texto">
+            <p>Tamanho do texto</p>
+            <div class="flex flex-row">
+                <div id="pequeno"><img src="img/Pequena.png" id="pequeno" width="24" height="16"></div>
+                <div id="medio"><img src="img/Media.png" id="medio" width="30" height="20"></div>
+                <div id="Grande"><img src="img/grande.png" id="grande" width="36" height="24"></div>
+            </div>
+        </div>
+        <a href="/login/login.html" class="font-extrabold text-[#868686]">Faça login</a>
+    </main>
+    <script src="config.js"></script>
+    <script src="global.js"></script>
+</body>
+
+</html>

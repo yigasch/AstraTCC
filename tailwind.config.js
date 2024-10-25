@@ -11,7 +11,11 @@ module.exports = {
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
-      }
+      },
+      boxShadow: {
+        'customlinear': '0 4px 10px rgba(0, 0, 0, 0.4)',
+        'custominput': '0 4px 10px rgba(0, 0, 0, 0.1)',
+      },
     },
   },
   plugins: [

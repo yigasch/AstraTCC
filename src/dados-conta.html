@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados da conta</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="roboto-bold flex flex-col items-center h-dvh">
+    <header class="flex flex-row items-center p-2 space-x-5 w-screen py-4 bg-[#4C5DC2] text-white shadow-customlinear">
+        <a href="perfil.html"><img src="assets/icon/Undo-white.png" alt="Retornar"></a>
+        <h1 class="text-lg">Dados da conta</h1>
+    </header>
+
+    <main class="w-3/5 space-y-6 mt-14">
+        <label class="italic text-[#808080] flex flex-col">
+            Email
+            <input type="email" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
+        </label>
+        <label class="italic text-[#808080] flex flex-col">
+            Nome de usuário
+            <input type="text" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
+        </label>
+        <label class="italic text-[#808080] flex flex-col">
+            Senha
+            <input type="password" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
+        </label>
+        <input type="button" name="alt-dados" value="Alterar dados"
+            class="bg-[#4C5DC2] rounded-full p-2 text-white w-full">
+        <div>
+            <input type="button" name="exc-conta" value="Excluir conta"
+                class="bg-[#4C5DC2] rounded-full p-2 text-white w-full">
+            <p class="text-sm text-[#9C9C9C] roboto-medium mt-2">Essa ação não poderá ser desfeita!</p>
+        </div>
+
+
+    </main>
+</body>
+
+</html>

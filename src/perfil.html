@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+    <title>Perfil</title>
+</head>
+
+<body class="h-screen w-screen flex flex-col roboto-bold text-[#868686] items-center justify-between">
+    <header class="w-screen relative">
+        <a href="index.html">
+            <img src="assets/icon/Undo-white.png" alt="Retornar" class="z-20 absolute top-0 m-5">
+        </a>
+        <img src="assets/perfil.svg" alt="Decor" class="w-screen z-0">
+
+        <div class="flex flex-col items-center absolute transform -translate-y-1/2 w-full">
+            <label for="fotoPerfilInput" class="">
+                <img id="fotoPerfil" class="rounded-full object-cover w-28 h-28 bg-[#c4c4c4]" src="assets/icon/user.svg"
+                    alt="Foto de Perfil">
+            </label>
+            <input id="fotoPerfilInput" type="file" accept="image/*" onchange="previewFoto(event)" hidden>
+        </div>
+
+    </header>
+
+
+    <main class="flex flex-col w-3/5 items-center h-2/3">
+
+        <h1 class="text-2xl mb-8">Nome de usuário</h1>
+
+        <div class="flex flex-col roboto-bold text-xl w-full space-y-4">
+            <p class="flex justify-between">Talkback
+            <label class="relative inline-block h-7 w-[48px] rounded-full bg-gray-600 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-[#1976D2]">
+              
+                <input type="checkbox" id="" class="peer sr-only" />
+
+                <span class="absolute inset-y-0 start-0 m-1 size-5 rounded-full bg-gray-300 ring-[5px] ring-inset ring-white transition-all peer-checked:start-7 bg-gray-600 peer-checked:w-2 peer-checked:bg-white peer-checked:ring-transparent"></span>
+            </label></p>
+
+            <a href="dados-conta.html">Dados da conta</a>
+            <a href="notificacoes.html">Notificações</a>
+            <a href="">Termos de uso</a>
+            <a href="">Política de privacidade</a>
+        </div>
+
+
+        <a href="" class="bg-blue p-2 rounded-full text-white mt-8 w-4/5 text-center">
+            <input type="button" value="Log out">
+        </a>
+
+    </main>
+
+    <script>
+        function previewFoto(event) {
+            const reader = new FileReader();
+            const fotoPerfil = document.getElementById('fotoPerfil');
+
+            reader.onload = function () {
+                if (reader.readyState === 2) {
+                    fotoPerfil.src = reader.result;
+                }
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+    </script>
+</body>
+
+</html>

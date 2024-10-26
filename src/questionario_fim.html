@@ -19,26 +19,48 @@
     <div class="grid grid-cols-2 gap-7 text-center roboto-bold text-[#868686] *:space-y-2">
         <div>
             <img src="assets/icon/res1.png" alt="autocontrole">
-            <p>Autocontrole</p>
         </div>
         <div>
             <img src="assets/icon/res2.png" alt="energia">
-            <p>Energia</p>
         </div>
         <div>
             <img src="assets/icon/res3.png" alt="foco">
-            <p>Foco</p>
         </div>
         <div>
             <img src="assets/icon/res4.png" alt="alimentacao">
-            <p>Alimentação</p>
         </div>
     </div>
 
     <div class="w-screen h-1/5 flex items-center justify-center">
-        <button class="w-7/12 p-3 bg-[#4C5DC2] text-white rounded-3xl hover:border-2">Continuar</button>
+        <button class="w-7/12 p-3 bg-[#4C5DC2] text-white rounded-3xl active:bg-[#3d4ca1]">Continuar</button>
     </div>
 
+    <div id="results"></div>
+    <script>
+        window.onload = function () {
+            const results = JSON.parse(localStorage.getItem('quizResults'));
+            const resultContainer = document.getElementById('results');
+
+            const themes = {
+                autocontrole: "Autocontrole",
+                energia: "Energia",
+                foco: "Foco",
+                alimentacao: "Alimentação"
+            };
+
+            for (let theme in results) {
+                const maxScore = 8;
+                const themeScore = results[theme];
+                const resultText = `${themes[theme]}: ${themeScore}/${maxScore}`;
+                
+                const themeContainer = document.querySelector(`img[alt="${theme}"]`).parentElement;
+
+                const p = document.createElement('p');
+                p.textContent = resultText;
+                themeContainer.appendChild(p);
+            }
+        };
+    </script>
 </body>
 
 </html>

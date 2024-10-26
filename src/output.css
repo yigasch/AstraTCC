@@ -1264,22 +1264,12 @@ video {
   transition-duration: 150ms;
 }
 
-.transition-colors {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.duration-300 {
-  transition-duration: 300ms;
-}
-
-.duration-100 {
-  transition-duration: 100ms;
-}
-
 .\[-webkit-tap-highlight-color\:_transparent\] {
   -webkit-tap-highlight-color: transparent;
+}
+
+body{
+  height: 100dvh;
 }
 
 .roboto-thin {
@@ -1380,21 +1370,6 @@ video {
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-}
-
-.active\:bg-green-400:active {
-  --tw-bg-opacity: 1;
-  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
-}
-
-.active\:bg-violet-700:active {
-  --tw-bg-opacity: 1;
-  background-color: rgb(109 40 217 / var(--tw-bg-opacity));
-}
-
-.active\:bg-\[\#6878d1\]:active {
-  --tw-bg-opacity: 1;
-  background-color: rgb(104 120 209 / var(--tw-bg-opacity));
 }
 
 .active\:bg-\[\#3d4ca1\]:active {

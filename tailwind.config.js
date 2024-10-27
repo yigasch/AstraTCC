@@ -7,7 +7,8 @@ module.exports = {
       colors: {
         'petblue': '#7892F1',
         'blue': '#4C5DC2',
-        'indigo': '#7F81FF'
+        'indigo': '#7F81FF',
+        'pink': '#ED747D',
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],

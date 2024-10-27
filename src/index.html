@@ -1,69 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<!-- sem tailwind ainda -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astra</title>
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="output.css">
     <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
+    <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-    <nav class="navbar">
-        <a href="index.html"><img src="assets/icon/Home Page.png" alt="Home">Home</a>
-        <a href=""><img src="assets/icon/Todo List.png" alt="Tarefas">Tarefas</a>
-        <a href="pet.html" class="navbar-pet-gap"></a>
-        <a href=""><img src="assets/icon/Food.png" alt="Receitas">Receitas</a>
-        <a href=""><img src="assets/icon/Books.png" alt="Artigos">Artigos</a>
+<body class="flex flex-col items-center">
+    <!-- navbar inferior -->
+    <nav
+        class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
+        <a href="index.html">
+            <i class="fa-solid fa-house fa-xl"></i>
+            Home</a>
+        <a href="tarefas.html">
+            <i class="fa-solid fa-list-check fa-xl"></i>
+            Tarefas</a>
+        <a href="pet.html" class="w-1/6"></a>
+        <a href="receitas.html">
+            <i class="fa-solid fa-utensils fa-xl"></i>
+            Receitas</a>
+        <a href="artigos.html">
+            <i class="fa-solid fa-newspaper fa-xl"></i>
+            Artigos</a>
     </nav>
 
-    <svg class="svg-navbar" width="390" height="79" viewBox="0 0 390 79" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-            d="M0 0H97.5H124.623C137.281 0 148.263 8.74033 151.103 21.0758L151.852 24.3303C153.9 33.222 158.667 41.2546 165.491 47.3111C182.273 62.2045 207.649 61.986 224.242 46.8826C230.594 41.1005 235.137 33.5669 237.272 25.2468L238.244 21.4574C241.484 8.82977 252.866 0 265.902 0H292.5H390V79H0V0Z"
-            fill="#C566F5" />
-    </svg>
+    <footer class="fixed bottom-0 w-screen z-0">
+        <svg class="w-full h-auto" viewBox="0 0 390 79" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M0 0H97.5H124.623C137.281 0 148.263 8.74033 151.103 21.0758L151.852 24.3303C153.9 33.222 158.667 41.2546 165.491 47.3111C182.273 62.2045 207.649 61.986 224.242 46.8826C230.594 41.1005 235.137 33.5669 237.272 25.2468L238.244 21.4574C241.484 8.82977 252.866 0 265.902 0H292.5H390V79H0V0Z"
+                fill="#C566F5" />
+        </svg>
+    </footer>
 
-    <a class="navbar-pet" href="pet.html">
-        <svg class="elipse-navbar" width="80" height="80" viewBox="0 0 80 80" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+    <a class="fixed bottom-0 mb-12 flex items-center justify-center" href="pet.html">
+        <svg class="z-0 h-20 w-20 absolute" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="40" cy="40" r="39" fill="#F56670" stroke="#868686" stroke-opacity="0.9" />
         </svg>
-        <img src="assets/icon/pet-head.png" alt="Pet" class="pet-icon">
-
+        <img src="assets/icon/pet-head.png" alt="Pet" class="z-20">
     </a>
 
-    <header>
+    <header class="w-screen h-auto flex justify-between items-center text-blue">
         <img src="assets/Astra-icon.png" alt="Astra-icon">
-        <p>Bem-vindo, [usuário]!</p>
-        <a href="perfil.html"><img src="assets/icon/Person.png" alt="Usuário"></a>
+        <p class="roboto-bold text-lg">Bem-vindo, [usuário]!</p>
+        <a href="perfil.html"><i class="fa-solid fa-user fa-2xl m-4"></i></a>
     </header>
 
-    <div class="estatisticas">
-        <h2>Suas estatísticas</h2>
-        <section>        
+    <div class="w-screen flex flex-col justify-around items-start pt-4 mt-4">
+        <h2 class="text-[#F56670] px-4 pb-2 roboto-medium text-4xl">Suas estatísticas</h2>
+        <section class="flex flex-row justify-around items-center px-2">
             <img src="assets/grafico-exemplo.png" alt="grafico">
-            <p>
-                <span class="span s1">Emoções registradas</span>
-                <span class="span s2">Registros no diário</span>
-                <span class="span s3">Tarefas cumpridas</span>
+            <p class="w-auto roboto-bold flex flex-col justify-around text-sm">
+                <span class="text-[#F56670]">Emoções registradas</span>
+                <span class="text-[#B556E4]">Registros no diário</span>
+                <span class="text-[#5BAAE1]">Tarefas cumpridas</span>
             </p>
         </section>
     </div>
-    
 
-    <div class="notif-shortcut">
-        <div class="medicamento">
-            <section><h3>Meus medicamentos</h3><p>Seja notificado quando for a hora de tomar seus remédios!</p></section>
-            <img src="assets/icon/Pill.png" alt="" width="18%" height="18%" class="notif-img">
+    <div class="space-y-2 h-auto mt-2">
+        <div
+            class="medicamento m-4 p-4 rounded-3xl text-[#EFEFEF] flex flex-row justify-around items-center bg-[#9C70D4]">
+            <section class="w-9/12 px-2">
+                <h3 class="roboto-bold text-xl">Meus medicamentos</h3>
+                <p class="my-2 text-xs">Seja notificado quando for a hora de tomar seus remédios!</p>
+            </section>
+            <i class="fa-solid fa-pills fa-3x"></i>
         </div>
-        <div class="agua">
-            <section><h3>Beba água</h3><p>Seja notificado até ingerir a quantidade adequada de água diária!</p></section>
-            <img src="assets/icon/Blur.png" alt="" width="18%" height="18%" class="notif-img">
+        <div class="agua m-4 p-4 rounded-3xl text-[#EFEFEF] flex flex-row  items-center bg-[#6399BD] justify-around">
+            <section class="text-[15px] w-9/12 px-2">
+                <h3 class="roboto-bold text-xl">Beba água</h3>
+                <p class="text-xs my-2">Seja notificado até ingerir a quantidade adequada de água diária!</p>
+            </section>
+            <i class="fa-solid fa-glass-water fa-3x"></i>
         </div>
     </div>
 
@@ -76,4 +90,5 @@
         }
     </script>
 </body>
+
 </html>

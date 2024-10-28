@@ -9,6 +9,10 @@ module.exports = {
         'blue': '#4C5DC2',
         'indigo': '#7F81FF',
         'pink': '#ED747D',
+        'lightblue': '#84B2D1',
+        'magenta': '#C566F5',
+        'lightgray': '#DBDBDB',
+        'mediumgray': '#ADADAD'
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],

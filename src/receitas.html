@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="flex flex-col items-center justify-start">
+<body class="flex flex-col items-center justify-end">
     <nav
         class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
         <a href="index.html">
@@ -43,46 +43,51 @@
         <img src="assets/icon/pet-head.png" alt="Pet" class="z-20">
     </a>
 
-    <header class="flex flex-row items-center p-2 space-x-5 w-screen m-6 text-white z-20">
-        <a href="tarefas.html" class="ml-4">
-            <i class="fa-solid fa-reply fa-2x"></i>
-        </a>
-        <h1 class="text-lg">Nova tarefa</h1>
+
+    <header class="absolute top-0 w-screen flex justify-center items-center text-blue">
+        <img src="assets/icon/alimentacao.svg" alt="Receitas" class="absolute top-0 w-screen">
+        <h1
+            class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-xl roboto-bold text-center pt-6">
+            Experimente algumas de nossas receitas
+        </h1>
     </header>
 
-    <div class="absolute top-0 w-screen flex justify-center items-center text-blue">
-        <img src="assets/icon/tarefas.svg" alt="Tarefas" class="absolute top-0">
-    </div>
-
-    <main class="h-4/6 py-14 w-8/12 flex flex-col items-start justify-around  text-mediumgray">
-        <input type="text" name="titulo" id="titulo" required
-            class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Título">
-        <input type="text" name="descricao" id="desc"
-            class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Descrição">
-        <input type="date" name="prazo" id="prazo" required
-            class="p-2 w-full bg-lightgray rounded-full pl-4">
-
-        <section class="w-full pb-4">
-            Período
-            <section class="flex justify-between">
-                <input type="time" name="periodoInicio" id="periodoInicio"
-                    class="p-2 w-2/5 bg-lightgray rounded-full pl-4">
-                <input type="time" name="periodoFim" id="periodoFim"
-                    class="p-2 w-2/5 bg-lightgray rounded-full pl-4">
+    <main class="h-1/2 w-full flex flex-col text-white items-center">
+        <a class="w-10/12 h-auto p-4 rounded-xl px-4 my-2 ring-1 ring-mediumgray flex flex-row text-pink justify-between items-center" href="receitas-desc.html?id=1">
+            <section>
+                <h1 class="text-lightblue roboto-bold">Título do prato ou alimento</h1>
+                <p class="text-sm text-mediumgray">Prévia da descrição</p>
             </section>
-        </section>
-        <p>Tags</p>
-        <select name="categoria" id="categoria"  class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none">
-            <option value="pessoal">Pessoal</option>
-            <option value="escola">Escola</option>
-            <option value="trabalho">Trabalho</option>
-        </select>
+            <i class="fa-regular fa-heart fa-2xl favoriteIcon"></i>
+        </a>
 
-        <button class="w-full bg-lightblue shadow-custominput p-2 rounded-full text-white text-lg roboto-bold align-self-end">Salvar tarefa</button>
+        <a class="w-10/12 h-auto p-4 rounded-xl px-4 my-2 ring-1 ring-mediumgray flex flex-row text-pink justify-between items-center" href="receitas-desc.html?id=2">
+            <section>
+                <h1 class="text-lightblue roboto-bold">Título do prato ou alimento</h1>
+                <p class="text-sm text-mediumgray">Prévia da descrição</p>
+            </section>
+            <i class="fa-regular fa-heart fa-2xl favoriteIcon"></i>
+        </a>
     </main>
 
 
+    <div class="place-self-end mx-6 z-10 text-magenta h-1/5">
+        <button onclick="window.location.href='nova-receita.html'">
+            <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
+        </button>
+    </div>
 
+    <script>
+        const favoriteIcons = document.querySelectorAll('.favoriteIcon');
+    
+        favoriteIcons.forEach(icon => {
+            icon.addEventListener("click", () => {
+                icon.classList.toggle("fa-regular");
+                icon.classList.toggle("fa-solid");
+            });
+        });
+    </script>
+    
 
 </body>
 

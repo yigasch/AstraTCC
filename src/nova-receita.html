@@ -47,41 +47,58 @@
         <a href="tarefas.html" class="ml-4">
             <i class="fa-solid fa-reply fa-2x"></i>
         </a>
-        <h1 class="text-lg">Nova tarefa</h1>
+        <h1 class="text-lg">Nova receita</h1>
     </header>
 
     <div class="absolute top-0 w-screen flex justify-center items-center text-blue">
         <img src="assets/icon/tarefas.svg" alt="Tarefas" class="absolute top-0">
     </div>
 
-    <main class="h-4/6 py-14 w-8/12 flex flex-col items-start justify-around  text-mediumgray">
-        <input type="text" name="titulo" id="titulo" required
-            class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Título">
-        <input type="text" name="descricao" id="desc"
-            class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Descrição">
-        <input type="date" name="prazo" id="prazo" required
-            class="p-2 w-full bg-lightgray rounded-full pl-4">
-
-        <section class="w-full pb-4">
-            Período
-            <section class="flex justify-between">
-                <input type="time" name="periodoInicio" id="periodoInicio"
-                    class="p-2 w-2/5 bg-lightgray rounded-full pl-4">
-                <input type="time" name="periodoFim" id="periodoFim"
-                    class="p-2 w-2/5 bg-lightgray rounded-full pl-4">
-            </section>
+    <main class="h-4/6 py-14 w-8/12 flex flex-col items-start justify-around text-mediumgray">
+        <section class="space-y-4">
+            <input type="text" name="titulo" id="titulo" required
+                class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Título">
+            <input type="text" name="descricao" id="desc"
+                class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none h-10" placeholder="Descrição">
         </section>
-        <p>Tags</p>
-        <select name="categoria" id="categoria"  class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none">
-            <option value="pessoal">Pessoal</option>
-            <option value="escola">Escola</option>
-            <option value="trabalho">Trabalho</option>
-        </select>
 
-        <button class="w-full bg-lightblue shadow-custominput p-2 rounded-full text-white text-lg roboto-bold align-self-end">Salvar tarefa</button>
+        <label for="imgReceita" id="labelImgReceita" class="text-mediumgray w-full h-auto flex justify-around">
+            <i class="fa-solid fa-image fa-3x"></i>
+            <p class="w-1/2">Insira uma imagem da sua receita.</p>
+        </label>
+        <input id="imgReceita" type="file" accept="image/*" onchange="previewImage(event)" hidden>
+        <div id="imgPreviewContainer" class="w-full h-auto flex justify-center mt-4"></div>
+
+
+        <button
+            class="w-full bg-lightblue shadow-custominput p-2 rounded-full text-white text-lg roboto-bold align-self-end">Salvar
+            receita
+        </button>
     </main>
 
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const imagePreviewContainer = document.getElementById("imgPreviewContainer");
+            const labelImgReceita = document.getElementById("labelImgReceita");
 
+            imagePreviewContainer.innerHTML = "";
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.alt = "Pré-visualização da imagem";
+                    img.classList.add("w-full", "h-auto", "max-w-md", "rounded-md");
+                    imagePreviewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+                labelImgReceita.querySelector("p").textContent = "Alterar imagem da sua receita.";
+            }
+        }
+
+    </script>
 
 
 </body>

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="output.css">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
-    <script src="talkback.js"></script>
 
     <title>Perfil</title>
 </head>
@@ -37,27 +36,27 @@
             <p class="flex justify-between">Talkback
                 <label
                     class="relative inline-block h-7 w-[48px] rounded-full bg-gray-600 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-[#1976D2]">
-        
+
                     <input type="checkbox" id="Talkback" class="peer sr-only" />
-        
+
                     <span
                         class="absolute inset-y-0 start-0 m-1 size-5 rounded-full bg-gray-300 ring-[5px] ring-inset ring-white transition-all peer-checked:start-7 bg-gray-600 peer-checked:w-2 peer-checked:bg-white peer-checked:ring-transparent"></span>
                 </label>
             </p>
-        
+
             <a href="dados-conta.html">Dados da conta</a>
-            <a href="notificacoes.html">Notificações</a>
+            <!-- <a href="notificacoes.html">Notificações</a> -->
             <a href="">Termos de uso</a>
             <a href="">Política de privacidade</a>
         </div>
-        
-        <a href="" class="bg-blue p-2 rounded-full text-white mt-8 w-4/5 text-center">
-            <input type="button" value="Log out">
-        </a>
+
+        <button class="bg-blue p-2 rounded-full text-white mt-8 w-4/5 text-center" onclick="logout()">
+            Log out
+        </button>
 
     </main>
 
-    <script>
+    <script type="module">
         function previewFoto(event) {
             const reader = new FileReader();
             const fotoPerfil = document.getElementById('fotoPerfil');
@@ -70,63 +69,35 @@
             reader.readAsDataURL(event.target.files[0]);
         }
 
-        let talkBackOn = false;
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        require('dotenv').config();
+        const apiKey = process.env.API_KEY;
 
-    function talk(msg) {
-        const utterance = new SpeechSynthesisUtterance(msg);
-        speechSynthesis.speak(utterance);
-    }
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
 
-    function checkTalk() {
-        const state = localStorage.getItem('talkBackOn');
-        talkBackOn = (state === 'true');
-    }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-    function handleClick(event) {
-        if (talkBackOn) {
-            const textToRead = event.target.innerText || event.target.alt || "";
-            if (textToRead) {
-                talk(textToRead);
-            }
-        }
-    }
-
-    function readPlaceHolder(event) {
-        if (talkBackOn) {
-            const placeText = event.target.placeholder;
-            if (placeText) {
-                talk(placeText);
-            }
-        }
-    }
-
-    window.addEventListener('load', function () {
-        checkTalk();
-
-        // Adiciona os eventos de foco aos inputs para leitura do placeholder
-        const inputs = document.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.addEventListener('focus', readPlaceHolder);
-        });
-
-        // Adiciona o evento de clique para leitura em links e botões
-        const clickableElements = document.querySelectorAll('a, button, input[type="button"]');
-        clickableElements.forEach(element => {
-            element.addEventListener('click', handleClick);
-        });
-    });
-
-    // Evento de mudança no toggle Talkback
-    document.getElementById('Talkback').addEventListener('change', function () {
-        talkBackOn = this.checked;
-        localStorage.setItem('talkBackOn', talkBackOn);
-
-        if (talkBackOn) {
-            talk("TalkBack ativado");
-        } else {
-            speechSynthesis.cancel();
-        }
-    });
+        window.logout = function () {
+            signOut(auth)
+                .then(() => {
+                    console.log("Usuário deslogado com sucesso.");
+                    window.location.href = 'login.html';
+                })
+                .catch((error) => {
+                    console.error("Erro ao deslogar:", error);
+                    alert('Erro ao deslogar: ' + error.message);
+                });
+        };
 
     </script>
 </body>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="output.css">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
+    <script src="talkback.js"></script>
 
     <title>Perfil</title>
 </head>
@@ -34,20 +35,22 @@
 
         <div class="flex flex-col roboto-bold text-xl w-full space-y-4">
             <p class="flex justify-between">Talkback
-            <label class="relative inline-block h-7 w-[48px] rounded-full bg-gray-600 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-[#1976D2]">
-              
-                <input type="checkbox" id="" class="peer sr-only" />
-
-                <span class="absolute inset-y-0 start-0 m-1 size-5 rounded-full bg-gray-300 ring-[5px] ring-inset ring-white transition-all peer-checked:start-7 bg-gray-600 peer-checked:w-2 peer-checked:bg-white peer-checked:ring-transparent"></span>
-            </label></p>
-
+                <label
+                    class="relative inline-block h-7 w-[48px] rounded-full bg-gray-600 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-[#1976D2]">
+        
+                    <input type="checkbox" id="Talkback" class="peer sr-only" />
+        
+                    <span
+                        class="absolute inset-y-0 start-0 m-1 size-5 rounded-full bg-gray-300 ring-[5px] ring-inset ring-white transition-all peer-checked:start-7 bg-gray-600 peer-checked:w-2 peer-checked:bg-white peer-checked:ring-transparent"></span>
+                </label>
+            </p>
+        
             <a href="dados-conta.html">Dados da conta</a>
             <a href="notificacoes.html">Notificações</a>
             <a href="">Termos de uso</a>
             <a href="">Política de privacidade</a>
         </div>
-
-
+        
         <a href="" class="bg-blue p-2 rounded-full text-white mt-8 w-4/5 text-center">
             <input type="button" value="Log out">
         </a>
@@ -66,6 +69,64 @@
             }
             reader.readAsDataURL(event.target.files[0]);
         }
+
+        let talkBackOn = false;
+
+    function talk(msg) {
+        const utterance = new SpeechSynthesisUtterance(msg);
+        speechSynthesis.speak(utterance);
+    }
+
+    function checkTalk() {
+        const state = localStorage.getItem('talkBackOn');
+        talkBackOn = (state === 'true');
+    }
+
+    function handleClick(event) {
+        if (talkBackOn) {
+            const textToRead = event.target.innerText || event.target.alt || "";
+            if (textToRead) {
+                talk(textToRead);
+            }
+        }
+    }
+
+    function readPlaceHolder(event) {
+        if (talkBackOn) {
+            const placeText = event.target.placeholder;
+            if (placeText) {
+                talk(placeText);
+            }
+        }
+    }
+
+    window.addEventListener('load', function () {
+        checkTalk();
+
+        // Adiciona os eventos de foco aos inputs para leitura do placeholder
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', readPlaceHolder);
+        });
+
+        // Adiciona o evento de clique para leitura em links e botões
+        const clickableElements = document.querySelectorAll('a, button, input[type="button"]');
+        clickableElements.forEach(element => {
+            element.addEventListener('click', handleClick);
+        });
+    });
+
+    // Evento de mudança no toggle Talkback
+    document.getElementById('Talkback').addEventListener('change', function () {
+        talkBackOn = this.checked;
+        localStorage.setItem('talkBackOn', talkBackOn);
+
+        if (talkBackOn) {
+            talk("TalkBack ativado");
+        } else {
+            speechSynthesis.cancel();
+        }
+    });
 
     </script>
 </body>

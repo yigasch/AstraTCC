@@ -6,6 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="output.css">
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+
+        window.loginComGoogle = function () {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    window.location.href = './index.html';
+                })
+                .catch((error) => {
+                    console.error("Erro ao fazer login:", error);
+                });
+        };
+
+        window.loginComFacebook = function () {
+            const provider = new FacebookAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    window.location.href = './index.html';
+                })
+                .catch((error) => {
+                    console.error("Erro ao fazer login:", error);
+                });
+        };
+
+        window.logar = async function () {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = './index.html';
+            } catch (error) {
+                console.error("Erro ao fazer login:", error);
+                alert('Erro ao fazer login: ' + error.message);
+            }
+        }
+
+    </script>
 
 </head>
 
@@ -18,11 +81,11 @@
     </div>
 
     <div class="flex flex-col items-center *:rounded-3xl *:w-full w-7/12">
-        <input type="text" name="" placeholder="Usuário"
+        <input id="email" type="text" name="" placeholder="Usuário"
             class="pl-5 py-2 placeholder:text-sm mb-3  text-[#9B9B9B] focus:outline-none shadow-custominput">
-        <input type="password" name="" placeholder="Senha"
+        <input id="password" type="password" name="" placeholder="Senha"
             class="pl-5 py-2  placeholder:text-sm  text-[#9B9B9B] focus:outline-none shadow-custominput">
-        <button class="bg-[#4C5DC2] mt-6 font-bold p-2">Login</button>
+        <button onclick="logar()" class="bg-[#4C5DC2] mt-6 font-bold p-2">Login</button>
         <a href="resetar-senha.html" class="font-bold text-sm mt-0 text-center p-2">Esqueceu sua senha?</a>
     </div>
 
@@ -30,8 +93,8 @@
         <section class="w-full">
             <h3 class="mt-5 mb-3 text-center">Você também pode entrar com</h3>
             <section class="flex flex-row justify-around text-white w-full *:rounded-3xl *:w-2/5">
-                <button class="bg-[#D44A4A] p-2">Google</button>
-                <button class="bg-[#3E5DCD] p-2">Facebook</button>
+                <button id="login-button" onclick="loginComGoogle()" class="bg-[#D44A4A] p-2">Google</button>
+                <button id="login-button" onclick="loginComFacebook()" class="bg-[#3E5DCD] p-2">Facebook</button>
             </section>
         </section>
 

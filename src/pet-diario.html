@@ -4,9 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passatempos com seu pet</title>
+    <title>Seu diário</title>
     <link rel="stylesheet" href="output.css">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
+    <style>
+        .entry {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        position: relative;
+      }
+      .date,
+      .mood,
+      .text {
+        margin: 5px 0;
+      }
+      .delete-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ED747D;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+    </style>
 </head>
 
 <body class="w-screen bg-petblue text-white flex flex-col items-center">
@@ -18,35 +43,70 @@
         <h1 class="text-lg"> Meu diário</h1>
     </header>
 
-    <div class="w-11/12 p-0 flex flex-col mb-5">
+    <div id="diary-entries" class="w-10/12 text-black">
+
+    </div>
+
+    <!-- <div class="w-11/12 p-0 flex flex-col mb-5">
         <h2 class="w-full">Segunda-feira, 20 de junho de 2024</h2>
         <div class="w-11/12 flex flex-row bg-[#4C5DC2] rounded-xl px-2 py-3 justify-around mt-2 self-end">
             <h3 class="text-xs">Prévia da entrada do diário...</h3>
             <img src="assets/icon/Happy.png" alt="">
         </div>
-    </div>
+    </div> -->
 
-    <div class="w-11/12 p-0 flex flex-col mb-5">
-        <h2 class="w-full">Terça-feira, 21 de junho de 2024</h2>
-        <div class="w-11/12 flex flex-row bg-[#4C5DC2] rounded-xl px-2 py-3 justify-around mt-2 self-end">
-            <h3 class="text-xs">Prévia da entrada do diário...</h3>
-            <img src="assets/icon/Happy.png" alt="">
-        </div>
-    </div>
-    
-    <div class="w-11/12 p-0 flex flex-col mb-5">
-        <h2 class="w-full">Quarta-feira, 22 de junho de 2024</h2>
-        <div class="w-11/12 flex flex-row bg-[#4C5DC2] rounded-xl px-2 py-3 justify-around mt-2 self-end">
-            <h3 class="text-xs">Prévia da entrada do diário...</h3>
-            <img src="assets/icon/Happy.png" alt="">
-        </div>
-    </div>
-
-    <div class="place-self-end m-6 bottom-0 fixed z-10 text-pink">
-        <button>
+    <div class="place-self-end m-6 bottom-0 fixed z-20 text-pink">
+        <button onclick="window.location.href='pet-diario-entrada.html'">
             <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
         </button>
     </div>
+    <script>const diaryEntriesDiv = document.getElementById("diary-entries");
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const entry = JSON.parse(localStorage.getItem(key));
+            exibition(key, entry);
+        }
+
+        function exibition(key, entry) {
+            if (entry && entry.text && entry.mood) {
+                const dateOnly = key.split("-").slice(0, 3).join("/");
+
+                const pageDiv = document.createElement("div");
+                pageDiv.className = "entry";
+
+                const data = document.createElement("div");
+                data.className = "date";
+                data.textContent = "Data: " + `${dateOnly}`;
+
+                const humor = document.createElement("div");
+                humor.className = "mood";
+                humor.textContent = "Humor: " + `${entry.mood}`;
+
+                const texto = document.createElement("div");
+                texto.className = "text";
+                texto.textContent = "Texto: " + `${entry.text}`;
+
+                const deletar = document.createElement("button");
+                deletar.className = "delete-btn";
+                deletar.textContent = "Deletar";
+
+                pageDiv.appendChild(data);
+                pageDiv.appendChild(humor);
+                pageDiv.appendChild(texto);
+                pageDiv.appendChild(deletar);
+
+                diaryEntriesDiv.appendChild(pageDiv);
+
+                deletar.addEventListener("click", () => {
+                    if (confirm("Quer deletar a página?")) {
+                        localStorage.removeItem(`${key}`);
+                        pageDiv.remove();
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>

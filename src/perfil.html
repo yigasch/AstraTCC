@@ -56,22 +56,9 @@
     </main>
 
     <script type="module">
-        function previewFoto(event) {
-            const reader = new FileReader();
-            const fotoPerfil = document.getElementById('fotoPerfil');
-
-            reader.onload = function () {
-                if (reader.readyState === 2) {
-                    fotoPerfil.src = reader.result;
-                }
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-        require('dotenv').config();
-        const apiKey = process.env.API_KEY;
 
         const firebaseConfig = {
             apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
@@ -99,7 +86,19 @@
         };
 
     </script>
-        <script src="talkback.js"></script>
+    <script src="talkback.js"></script>
+    <script>
+        function previewFoto(event) {
+            const reader = new FileReader();
+            const fotoPerfil = document.getElementById('fotoPerfil');
+
+            reader.onload = function () {
+                if (reader.readyState === 2) {
+                    fotoPerfil.src = reader.result;
+                }
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }</script>
 
 </body>
 

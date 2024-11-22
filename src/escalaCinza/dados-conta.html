@@ -5,36 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dados da conta</title>
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="../output.css">
+    <link rel="shortcut icon" href="../assets/Persona.png" type="image/x-icon">v
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
-    <script src="talkback.js"></script>
+    <script src="../talkback.js"></script>
 </head>
 
-<body class="roboto-bold flex flex-col items-center">
-    <header class="flex flex-row items-center p-2 space-x-5 w-screen py-4 bg-[#4C5DC2] text-white shadow-customlinear">
+<body class="roboto-bold flex flex-col items-center bg-[#252525]">
+    <header class="flex flex-row items-center p-2 space-x-5 w-screen py-4 bg-[#727272] text-white shadow-customlinear">
         <a href="perfil.html"><i class="fa-solid fa-reply fa-2x"></i></a>
         <h1 class="text-lg">Dados da conta</h1>
     </header>
 
     <main class="w-3/5 space-y-6 mt-14">
-        <label class="italic text-[#808080] flex flex-col">
+        <label class="italic text-mediumgray flex flex-col">
             Email
             <input id="email" type="email" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
         </label>
-        <label class="italic text-[#808080] flex flex-col">
+        <label class="italic text-mediumgray flex flex-col">
             Nome de usuário
             <input id="username" type="text" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
         </label>
-        <label class="italic text-[#808080] flex flex-col">
+        <label class="italic text-mediumgray flex flex-col">
             Senha
             <input id="password" type="password" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
         </label>
         <input type="button" id="updateButton" name="alt-dados" value="Alterar dados"
-            class="bg-[#4C5DC2] rounded-full p-2 text-white w-full">
+            class="bg-[#727272] rounded-full p-2 text-white w-full">
         <div>
             <input type="button" name="exc-conta" value="Excluir conta"
-                class="bg-[#4C5DC2] rounded-full p-2 text-white w-full">
-            <p class="text-sm text-[#9C9C9C] roboto-medium mt-2">Essa ação não poderá ser desfeita!</p>
+                class="bg-[#727272] rounded-full p-2 text-white w-full">
+            <p class="text-sm text-white roboto-medium mt-2">Essa ação não poderá ser desfeita!</p>
         </div>
 
         <script type="module">

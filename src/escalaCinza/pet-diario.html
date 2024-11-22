@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu diário</title>
     <link rel="stylesheet" href="../output.css">
+    <link rel="shortcut icon" href="../assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <script src="../talkback.js"></script>
     <style>
@@ -44,7 +45,7 @@
         <h1 class="text-lg"> Meu diário</h1>
     </header>
 
-    <div id="diary-entries" class="w-10/12 text-black">
+    <div id="diary-entries" class="w-10/12 text-black"  contenteditable="true">
 
     </div>
 
@@ -61,7 +62,8 @@
             <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
         </button>
     </div>
-    <script>const diaryEntriesDiv = document.getElementById("diary-entries");
+    <script>
+    const diaryEntriesDiv = document.getElementById("diary-entries");
 
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
@@ -107,6 +109,15 @@
                 });
             }
         }
+        function adjustDivSize() {
+            const diaryEntries = document.getElementById('diary-entries');
+            diaryEntries.style.height = 'auto';
+            diaryEntries.style.height = `${diaryEntries.scrollHeight}px`;
+        }
+
+        const diaryEntries = document.getElementById('diary-entries');
+        diaryEntries.addEventListener('input', adjustDivSize);
+        adjustDivSize();
     </script>
 </body>
 

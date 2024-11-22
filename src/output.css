@@ -1284,6 +1284,11 @@ video {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#414141\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(65 65 65 / var(--tw-bg-opacity));
+}
+
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
@@ -1617,6 +1622,11 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.text-lightgray {
+  --tw-text-opacity: 1;
+  color: rgb(219 219 219 / var(--tw-text-opacity));
+}
+
 .placeholder-\[\#252525\]::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(37 37 37 / var(--tw-placeholder-opacity));
@@ -1635,6 +1645,16 @@ video {
 .placeholder-black::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(0 0 0 / var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-700::-moz-placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
+}
+
+.placeholder-gray-700::placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
 }
 
 .shadow-custominput {

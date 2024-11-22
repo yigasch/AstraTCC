@@ -52,35 +52,37 @@
         <a href="perfil.html"><i class="fa-solid fa-user fa-2xl m-4"></i></a>
     </header>
 
-    <div class="w-screen flex flex-col justify-around items-start pt-4 mt-4">
-        <h2 class="text-[#F56670] px-4 pb-2 roboto-medium text-4xl">Suas estatísticas</h2>
-        <section class="flex flex-row justify-around items-center px-2">
-            <img src="assets/grafico-exemplo.png" alt="grafico">
-            <p class="w-auto roboto-bold flex flex-col justify-around text-sm">
-                <span class="text-[#F56670]">Emoções registradas</span>
-                <span class="text-[#B556E4]">Registros no diário</span>
-                <span class="text-[#5BAAE1]">Tarefas cumpridas</span>
-            </p>
+    <main class="flex flex-col items-center justify-center text-white">
+        <section class="bg-[#9C70D4] p-4 rounded-3xl flex justify-around items-center w-10/12 mt-6">
+            <div>
+                <h1 class="roboto-bold text-xl">Tarefas</h1>
+                <p class="w-4/5 text-sm">Organize seu dia: liste suas tarefas e metas.</p>
+            </div>
+            <div>
+                <i class="fa-solid fa-bars-progress fa-3x"></i>
+            </div>
         </section>
-    </div>
+        <section class="bg-[#6399BD] p-4 rounded-3xl flex justify-around items-center w-10/12 mt-4">
+            <div>
+                <h1 class="roboto-bold text-xl">Diário</h1>
+                <p class="w-4/5 text-sm">Compartilhe o que aconteceu e como você se sentiu.</p>
+            </div>
+            <div>
+                <i class="fa-solid fa-pen-to-square fa-3x"></i>
+            </div>
+        </section>
+        <section class="flex justify-around items-center w-11/12 mt-4">
+            <div class="bg-[#ED747D] flex flex-col items-center justify-center p-4 rounded-xl ">
+                <h1 class="roboto-bold text-xl mb-2">Meditação</h1>
+                <i class="fa-solid fa-hourglass-half fa-2x"></i>
+            </div>
+            <div class="bg-[#F59870] flex flex-col items-center justify-center p-4 rounded-xl">
+                <h1 class="roboto-bold text-xl mb-2">Check up</h1>
+                <i class="fa-regular fa-heart fa-2x"></i>
+            </div>
+        </section>
 
-    <div class="space-y-2 h-auto mt-2">
-        <div
-            class="medicamento m-4 p-4 rounded-3xl text-[#EFEFEF] flex flex-row justify-around items-center bg-[#9C70D4]">
-            <section class="w-9/12 px-2">
-                <h3 class="roboto-bold text-xl">Meus medicamentos</h3>
-                <p class="my-2 text-xs">Seja notificado quando for a hora de tomar seus remédios!</p>
-            </section>
-            <i class="fa-solid fa-pills fa-3x"></i>
-        </div>
-        <div class="agua m-4 p-4 rounded-3xl text-[#EFEFEF] flex flex-row  items-center bg-[#6399BD] justify-around">
-            <section class="text-[15px] w-9/12 px-2">
-                <h3 class="roboto-bold text-xl">Beba água</h3>
-                <p class="text-xs my-2">Seja notificado até ingerir a quantidade adequada de água diária!</p>
-            </section>
-            <i class="fa-solid fa-glass-water fa-3x"></i>
-        </div>
-    </div>
+    </main>
 
     <script>
         if ('serviceWorker' in navigator) {

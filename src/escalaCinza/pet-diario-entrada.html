@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu diário</title>
+    <link rel="stylesheet" href="output.css">
+    <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>    
+    <script src="talkback.js"></script>
+</head>
+
+<body class="w-screen bg-petblue text-white flex flex-col items-center">
+
+    <header class="flex flex-row items-center p-2 space-x-5 w-screen m-6">
+        <a href="pet-diario.html" class="ml-4">
+            <i class="fa-solid fa-reply fa-2x"></i>
+        </a>
+        <h1 class="text-lg"> Meu diário</h1>
+    </header>
+
+    <h2 class="w-10/12 text-lg text-center">Selecione seu humor e adicione comentários sobre seu dia!</h2>
+
+    <div class="emotion-container w-8/12 flex flex-row justify-around items-center h-auto text-3xl m-4">
+        <button class="humor p-2 rounded-full" onclick="moodCatcher('Feliz')" id="btn1">
+            😊
+        </button>
+        <button class="humor p-2 rounded-full" onclick="moodCatcher('Neutro')" id="btn2">
+            😐
+        </button>
+        <button class="humor p-2 rounded-full" onclick="moodCatcher('Triste')" id="btn3">
+            🙁
+        </button>
+    </div>
+    <textarea id="page"
+        class="w-10/12 rounded-3xl p-2 pl-4 focus:outline-none shadow-custominput resize-none overflow-hidden text-mediumgray mt-4"></textarea>
+
+        <button id="saveBtn" class="bg-pink p-2 rounded-3xl shadow-custominput m-4 w-1/4 roboto-bold">Salvar</button>
+    <script>
+        let mood = '';
+
+        function moodCatcher(humor) {
+            mood = humor;
+
+            document.querySelectorAll('.humor').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
+                btn.classList.add('bg-gray-300');
+            });
+
+            const clickedButton = document.getElementById(`btn${humor === 'feliz' ? 1 : humor === 'neutro' ? 2 : 3}`);
+            clickedButton.classList.remove('bg-gray-300');
+            clickedButton.classList.add('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
+
+        }
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const text = document.getElementById('page').value.trim();
+
+            if (!mood) {
+                alert('Selecione um humor');
+                return;
+            }
+
+            if (!text) {
+                alert('Preencha o campo de texto antes de enviar');
+                return;
+            }
+
+            const now = new Date();
+            const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+            localStorage.setItem(formattedDate, JSON.stringify({ text, mood }));
+
+            window.location.href = "pet-diario.html";
+        });
+
+        function adjustTextarea() {
+            const userInput = document.getElementById('page');
+            userInput.style.height = 'auto';
+            userInput.style.height = `${userInput.scrollHeight}px`;
+        }
+
+        document.getElementById('page').addEventListener('input', function () {
+            adjustTextarea();
+        });
+
+    </script>
+</body>
+
+</html>

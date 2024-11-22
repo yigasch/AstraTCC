@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grounding</title>
+    <link rel="stylesheet" href="../output.css">
+    <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
+    <script src="../talkback.js"></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-[#252525] text-gray-200 flex flex-col items-center">
+
+    <header id="header" class="flex flex-row items-center p-2 space-x-5 w-screen my-5">
+        <a href="pet-passatempo.html" class="ml-4">
+            <i class="fa-solid fa-reply fa-2x"></i>
+        </a>
+        <h1 class="text-lg">Grounding</h1>
+    </header>
+
+    <div id="intro" class="w-full text-center p-6 roboto-bold h-auto h-full flex flex-col items-center justify-center">
+        <h1 class="text-3xl mb-5">Vamos fazer um exercício de grounding!</h1>
+        <p class="text-lg">Essa atividade vai te ajudar a se reconectar com o momento presente.</p>
+        <section class="w-full h-1/4">
+            <button id="start"
+                class="w-9/12 mt-14 p-4 bg-[#727272] text-white rounded-full active:bg-[#3d4ca1] text-xl">Iniciar
+                exercício</button>
+        </section>
+    </div>
+
+    <div id="questionario" class="flex flex-col items-center h-full my-6 hidden">
+
+        <div class="w-10/12 bg-white rounded-3xl h-5 progressbar my-6">
+            <div class="bg-[#727272] rounded-3xl h-5" style="width: 0%"></div>
+        </div>
+
+        <div class="w-10/12 *:text-center flex flex-col items-center my-6">
+            <h2 id="questions" class="roboto-bold text-2xl mb-2 w-full"></h2>
+        </div>
+
+        <div class="text-black w-9/12 h-auto m-4">
+            <textarea type="text" id="userInput"
+                class="w-full rounded-3xl p-2 pl-4 focus:outline-none shadow-custominput resize-none overflow-hidden"
+                placeholder="Digite sua resposta aqui" rows="1"> </textarea>
+
+        </div>
+
+        <div class="w-8/12 h-1/4">
+            <button id="next" onclick="nextQuestion()" disabled
+                class="w-full p-3 bg-[#727272] text-white rounded-3xl">Próximo</button>
+        </div>
+
+    </div>
+
+    <div id="final"
+        class="hidden w-full text-center p-6 roboto-bold h-auto h-full flex flex-col items-center justify-center">
+        <h1 class="text-4xl mb-5">Ótimo trabalho! </h1>
+        <p class="text-xl mb-10">Você completou o exercício de grounding. Esperamos que tenha sido útil e que você se
+            sinta melhor.</p>
+        <p class="text-base">Gostaria de fazer outro exercício ou ler dicas? Explore as abas de atividades e artigos.</p>
+        <div class="w-full h-1/4 p-2 flex flex-row justify-around mt-4 items-start">
+            <a href="pet-passatempo.html"
+                class=" w-1/2 h-auto p-2 bg-[#727272] text-white rounded-full text-xl mr-4">Atividades</a>
+            <a href="artigos.html"
+                class=" w-1/2 p-2 bg-[#727272] text-white rounded-full text-xl">Artigos</a>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            { question: "Olhe ao seu redor e identifique 5 coisas que consegue ver." },
+            { question: "Agora, pense em 4 coisas que você pode tocar. O que está ao seu redor que você pode sentir?" },
+            { question: "Feche os olhos e ouça. Quais são 3 sons que você consegue identificar?" },
+            { question: "Se você puder, identifique 2 cheiros ao seu redor. O que você consegue perceber?" },
+            { question: "Por fim, pense em 1 sabor que você pode sentir agora. O que você está degustando?" }
+        ];
+        let index = 0;
+
+        function loadQuestion() {
+            const question = questions[index];
+            document.getElementById('questions').textContent = question.question;
+            const inputField = document.getElementById('userInput');
+            inputField.value = '';
+            inputField.focus();
+            document.getElementById('next').disabled = true;
+        }
+
+
+        function nextQuestion() {
+            index++;
+            if (index < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('questionario').classList.add('hidden');
+                document.getElementById('final').classList.remove('hidden');
+            }
+            updateProgressBar();
+        }
+        function enableNextButton() {
+            const inputField = document.getElementById('userInput');
+            document.getElementById('next').disabled = inputField.value.trim() === '';
+        }
+
+        const progressBar = document.querySelector('.progressbar div');
+        function updateProgressBar() {
+            const bar = parseFloat(progressBar.style.width);
+            progressBar.style.width = `${bar + 20}%`;
+        }
+
+        document.getElementById('userInput').addEventListener('input', enableNextButton);
+
+        window.onload = loadQuestion;
+
+        // ajuste automatico da altura do textarea 
+        function adjustTextarea() {
+            const userInput = document.getElementById('userInput');
+            userInput.style.height = 'auto';
+            userInput.style.height = `${userInput.scrollHeight}px`;
+        }
+
+        document.getElementById('userInput').addEventListener('input', function () {
+            adjustTextarea();
+            enableNextButton();
+        });
+
+        // esconder div de introdução ao exercício
+
+        document.getElementById('start').addEventListener('click', function () {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('header').classList.add('hidden');
+            document.getElementById('questionario').classList.remove('hidden');
+            loadQuestion();
+        })
+
+    </script>
+</body>
+
+</html>

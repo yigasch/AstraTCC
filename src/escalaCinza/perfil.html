@@ -4,21 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="../output.css">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <title>Perfil</title>
 </head>
 
-<body class="w-screen flex flex-col roboto-bold text-[#868686] items-center justify-between">
+<body class="w-screen flex flex-col roboto-bold text-[#EFEFEF] bg-[#393939] items-center justify-between">
     <header class="w-screen relative">
         <a href="index.html" class="z-20 absolute top-0 m-5 text-white">
             <i class="fa-solid fa-reply fa-2x"></i>
         </a>
-        <img src="assets/perfil.svg" alt="Decor" class="w-screen z-0">
+        <img src="../assets/perfilcinza.svg" alt="Decor" class="w-screen z-0">
 
         <div class="flex flex-col items-center absolute transform -translate-y-1/2 w-full">
             <label for="fotoPerfilInput" class="">
-                <img id="fotoPerfil" class="rounded-full object-cover w-28 h-28 bg-[#c4c4c4]" src="assets/icon/user.svg"
+                <img id="fotoPerfil" class="rounded-full object-cover w-28 h-28 bg-[#c4c4c4]" src="../assets/icon/user.svg"
                     alt="Foto de Perfil">
             </label>
             <input id="fotoPerfilInput" type="file" accept="image/*" onchange="previewFoto(event)" hidden>
@@ -34,7 +34,7 @@
         <div class="flex flex-col roboto-bold text-xl w-full space-y-4">
             <p class="flex justify-between">Talkback
                 <label
-                    class="relative inline-block h-7 w-[48px] rounded-full bg-gray-600 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-[#1976D2]">
+                    class="relative inline-block h-7 w-[48px] rounded-full bg-gray-600 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-[#8e8e8e]">
 
                     <input type="checkbox" id="Talkback" class="peer sr-only" />
 
@@ -42,8 +42,8 @@
                         class="absolute inset-y-0 start-0 m-1 size-5 rounded-full bg-gray-300 ring-[5px] ring-inset ring-white transition-all peer-checked:start-7 bg-gray-600 peer-checked:w-2 peer-checked:bg-white peer-checked:ring-transparent"></span>
                 </label>
             </p>
-            <a href="escalaCinza/perfil.html" class="flex justify-between items-center">Escala de cinza
-                <i class="fa-solid fa-lg fa-circle-xmark pr-2"></i>
+            <a href="../perfil.html" class="flex justify-between items-center">Escala de cinza
+                <i class="fa-solid fa-circle-check pr-2 fa-lg"></i>
             </a>
 
             <a href="dados-conta.html">Dados da conta</a>
@@ -52,7 +52,7 @@
             <a href="">Política de privacidade</a>
         </div>
 
-        <button class="bg-blue p-2 rounded-full text-white mt-8 w-4/5 text-center" onclick="logout()">
+        <button class="bg-[#595959] p-2 rounded-full text-white mt-8 w-4/5 text-center" onclick="logout()">
             Log out
         </button>
 
@@ -89,7 +89,7 @@
         };
 
     </script>
-    <script src="talkback.js"></script>
+    <script src="../talkback.js"></script>
     <script>
         function previewFoto(event) {
             const reader = new FileReader();

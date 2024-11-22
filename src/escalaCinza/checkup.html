@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grounding</title>
+    <link rel="stylesheet" href="../output.css">
+    <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
+    <script src="../talkback.js"></script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-[#252525] text-white flex flex-col items-center justify-center">
+    <header id="header" class= "flex flex-row items-center p-2 space-x-5 w-screen my-5">
+        <a href="pet-passatempo.html" class="ml-4">
+            <i class="fa-solid fa-reply fa-2x"></i>
+        </a>
+        <h1 class="text-lg">Check Up</h1>
+    </header>
+
+    <div id="questionario" class="flex flex-col justify-around space-y-2 items-center h-full">
+
+        <div class="w-10/12 bg-white rounded-3xl h-5 progressbar">
+            <div class="bg-[#727272] rounded-3xl h-5" style="width: 0%  "></div>
+        </div>
+
+        <div class="w-4/5 *:text-center flex flex-col items-center h-auto">
+            <h2 id="questions" class="roboto-bold text-2xl mb-2"></h2>
+        </div>
+
+        <div id="options" class="flex flex-col justify-around w-11/12 text-center h-2/5 text-lg p-2">
+
+            <div>
+                <input class="sr-only peer" type="radio" id="option1" name="option" value="1"
+                    onclick="enableNextButton()">
+                <div class="peer-checked:border-white peer-checked:bg-[#727272] bg-[#838383] rounded-full p-4">
+                    <label for="option1"></label>
+                </div>
+            </div>
+
+            <div>
+                <input class="sr-only peer" type="radio" id="option2" name="option" value="2"
+                    onclick="enableNextButton()">
+                <div class="peer-checked:border-white peer-checked:bg-[#727272] bg-[#838383] rounded-full p-4">
+                    <label for="option2"></label>
+                </div>
+            </div>
+            <div>
+                <input class="sr-only peer" type="radio" id="option3" name="option" value="3"
+                    onclick="enableNextButton()">
+                <div class="peer-checked:border-white peer-checked:bg-[#727272] bg-[#838383] rounded-full p-4">
+                    <label for="option3"></label>
+                </div>
+            </div>
+
+            <div>
+                <input class="sr-only peer" type="radio" id="option4" name="option" value="4"
+                    onclick="enableNextButton()">
+                <div class="peer-checked:border-white peer-checked:bg-[#727272] bg-[#838383] rounded-full p-4">
+                    <label for="option4"></label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="w-8/12 h-1/4">
+            <button id="next" onclick="nextQuestion()" disabled
+                class="w-full p-3 bg-[#838383] text-white rounded-3xl active:bg-[#727272]">Próximo</button>
+        </div>
+
+    </div>
+
+    <div id="resultado" class="hidden w-11/12 text-center h-full flex flex-col justify-center items-center">
+        <h1 id="textoResultado" class="roboto-bold text-3xl mb-4">Seu resultado eh moderado</h1>
+        <p id="descricaoResultado" class="text-xl mb-10 roboto-bold"></p>
+
+        <div class="flex flex-row w-1/2 items-center justify-around mb-12">
+            <i class="fa-solid fa-heart-circle-check fa-5x m-2"></i>
+            <h1 id="score" class="roboto-black text-4xl"></h1>
+        </div>
+
+        <p class="text-base w-11/12 mt-10 ">Gostaria de fazer outro exercício ou ler dicas? Explore as abas de atividades e artigos.</p>
+        <div class="w-full h-1/4 p-2 flex flex-row justify-around mt-4 items-start">
+            <a href="pet-passatempo.html"
+                class=" w-1/2 h-auto p-2 bg-[#727272] text-white rounded-full text-xl mr-4">Atividades</a>
+            <a href="artigos.html"
+                class=" w-1/2 p-2 bg-[#727272] text-white rounded-full text-xl">Artigos</a>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "Como você se sente emocionalmente na maior parte do dia?",
+                options: ["Muito triste", "Um pouco triste", "Neutro", "Muito feliz"]
+            },
+
+            {
+                question: "Nos últimos dias, você tem se sentido mais irritado ou frustrado do que o normal?",
+                options: ["Frequentemente", "Às vezes", "Raramente", "Nunca"]
+            },
+
+            {
+                question: "Você tem se sentido sobrecarregado por suas responsabilidades?",
+                options: ["Sim, frequentemente", "Às vezes", "Não, raramente", "Não, de forma alguma"]
+            },
+
+            {
+                question: "Quão frequentemente você sente que não consegue lidar com as demandas do dia a dia?",
+                options: ["Frequentemente", "Às vezes", "Raramente", "Nunca"]
+            },
+
+            {
+                question: "Você tem tido dificuldade para dormir à noite?",
+                options: ["Sim, frequentemente", "Às vezes", "Raramente", "Não, durmo muito bem"]
+            },
+
+            {
+                question: "Você costuma ter pensamentos negativos sobre si mesmo?",
+                options: ["Frequentemente", "Às vezes", "Raramente", "Nunca"]
+            },
+
+            {
+                question: "Você tem encontrado tempo para atividades que gosta ou que o relaxam?",
+                options: ["Não, nunca", "Raramente", "Às vezes", "Sim, sempre"]
+            },
+
+            {
+                question: "Em uma escala de 1 a 10, como você avaliaria sua saúde mental atualmente?",
+                options: [" 1-3 (Baixa)", "4-6 (Moderada)", "7-8 (Boa)", "9-10 (Excelente)"]
+            },
+            {
+                question: "Você sente que tem apoio emocional suficiente de amigos ou familiares?",
+                options: ["Não, de forma alguma", "Não muito", "Sim, em parte", "Sim, completamente"]
+            }
+        ];
+
+        let Index = 0;
+        let totalScore = 0;
+
+
+        function loadQuestion() {
+            const question = questions[Index];
+            document.getElementById('questions').textContent = question.question;
+
+            const options = document.querySelectorAll('input[name="option"]');
+
+            options.forEach((option, index) => {
+                const label = document.querySelector(`label[for="option${index + 1}"]`);
+                label.textContent = question.options[index];
+                option.checked = false;
+                document.getElementById('next').disabled = true;
+            });
+        }
+
+        function nextQuestion() {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (selectedOption) {
+                totalScore += parseInt(selectedOption.value);
+            }
+
+            Index++;
+            if (Index < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+            passprogressbar();
+        }
+
+        function enableNextButton() {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            document.getElementById('next').disabled = !selectedOption;
+        }
+
+        function showResult() {
+            let result;
+            let desc;
+            if (totalScore < 18) {
+                result = "Ruim";
+                desc = "Tente dedicar alguns minutos ao autocuidado todos os dias, como um passeio ao ar livre ou uma prática de respiração profunda."
+            } else if (totalScore <= 27) {
+                result = "Moderado";
+                desc = "Experimente manter um diário para registrar seus sentimentos e reflexões. Isso pode ajudá-lo a entender melhor suas emoções."
+            } else if (totalScore == 36) {
+                result = "Muito bom"
+                desc = "Parabéns! Considere estabelecer novos desafios ou metas que possam enriquecer ainda mais sua vida."
+            } else {
+                result = "Bom";
+                desc = "Continue com suas práticas saudáveis e considere explorar novas atividades que tragam alegria."
+            }
+
+            document.getElementById('questionario').classList.add('hidden');
+            document.getElementById('header').classList.add('hidden');
+            document.getElementById('resultado').classList.remove('hidden');
+            document.getElementById('textoResultado').textContent = `Seu check up resultou em ${result}`;
+            document.getElementById('descricaoResultado').textContent = desc;
+            document.getElementById('score').textContent = `${totalScore}/36`;
+
+
+        }
+
+        const progressbar = document.querySelector('.progressbar div')
+        function passprogressbar() {
+            const bar = parseFloat(progressbar.style.width)
+            progressbar.style.width = `${bar + 100 / questions.length}%`;
+        }
+        window.onload = loadQuestion;
+    </script>
+</body>
+
+</html>

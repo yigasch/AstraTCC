@@ -35,45 +35,59 @@
             console.log(mood);
         };
 
+        window.onload = () => {
+            const texto = sessionStorage.getItem("texto");
+            const humor = sessionStorage.getItem("humor");
+
+            document.getElementById("page").value = texto || "";
+            document.querySelector(`button[value="${humor}"]`)?.classList.add("selected");
+        };
+        document.querySelectorAll(".humor").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                document.querySelector(".selected")?.classList.remove("selected");
+                e.target.classList.add("selected");
+            });
+
+        });
+        // Salvar alterações
         document.getElementById("saveBtn").addEventListener("click", async () => {
-            // Certifique-se de que a variável 'mood' esteja definida.
-            if (!mood) {
-                alert("Por favor, selecione um humor.");
-                return;
-            }
-
-            const text = document.getElementById("page").value;
             const entryId = sessionStorage.getItem("entryId");
-
-            if (!text) {
-                alert("O texto do diário não pode estar vazio.");
-                return;
-            }
+            const text = document.getElementById("page").value;
 
             try {
+                // Objeto com os dados da entrada
                 const entryData = {
-                    date: new Date().toISOString(), // Formato padrão ISO para datas
+                    date: new Date().toISOString(), // Data no formato ISO
                     text,
                     mood,
-                    uid: auth.currentUser?.uid || null, // Salvar o UID do usuário logado
+                    uid: auth.currentUser?.uid || null, // UID do usuário logado
                 };
 
                 if (entryId) {
-                    // Atualiza a entrada existente
+                    // Atualiza a entrada existente no Firestore
                     await updateDoc(doc(db, "diario", entryId), entryData);
+                    console.log("Entrada do diário atualizada com sucesso.");
                 } else {
-                    // Cria uma nova entrada no Firestore
-                    await addDoc(collection(db, "diario"), entryData);
+                    console.warn("Nenhum ID de entrada encontrado para atualizar.");
                 }
 
                 // Limpa o sessionStorage e redireciona
                 sessionStorage.clear();
-                 window.location.href = "pet-diario.html";
+                // Redirecionamento desativado, descomente se necessário:
+                window.location.href = "/src/pet-diario.html";
+
             } catch (error) {
                 console.error("Erro ao salvar o diário:", error);
                 alert("Ocorreu um erro ao salvar o diário. Tente novamente.");
             }
         });
+
+
+        // Seleção de humor
+
+
+
+
 
     </script>
 </head>
@@ -104,54 +118,6 @@
         class="w-10/12 rounded-3xl p-2 pl-4 focus:outline-none shadow-custominput resize-none overflow-hidden text-mediumgray mt-4"></textarea>
 
     <button id="saveBtn" class="bg-pink p-2 rounded-3xl shadow-custominput m-4 w-1/4 roboto-bold">Salvar</button>
-    <script>
-        //     let mood = '';
-
-        function moodCatcher() {
-
-
-            document.querySelectorAll('.humor').forEach(btn => {
-                btn.classList.remove('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
-                btn.classList.add('bg-gray-300');
-            });
-
-            const clickedButton = document.getElementById(`btn${humor === 'feliz' ? 1 : humor === 'neutro' ? 2 : 3}`);
-            clickedButton.classList.remove('bg-gray-300');
-            clickedButton.classList.add('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
-
-        }
-
-        //     document.getElementById('saveBtn').addEventListener('click', () => {
-        //         const text = document.getElementById('page').value.trim();
-
-        //         if (!mood) {
-        //             alert('Selecione um humor');
-        //             return;
-        //         }
-
-        //         if (!text) {
-        //             alert('Preencha o campo de texto antes de enviar');
-        //             return;
-        //         }
-
-        //         const now = new Date();
-        //         const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
-        //         localStorage.setItem(formattedDate, JSON.stringify({ text, mood }));
-
-        //         window.location.href = "pet-diario.html";
-        //     });
-
-        function adjustTextarea() {
-            const userInput = document.getElementById('page');
-            userInput.style.height = 'auto';
-            userInput.style.height = `${userInput.scrollHeight}px`;
-        }
-
-        document.getElementById('page').addEventListener('input', function () {
-            adjustTextarea();
-        });
-
-        // </script>
 </body>
 
 </html>

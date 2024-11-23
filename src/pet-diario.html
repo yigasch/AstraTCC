@@ -6,33 +6,186 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu diário</title>
     <link rel="stylesheet" href="output.css">
-    <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <script src="talkback.js"></script>
+    <script type="module" defer>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            deleteDoc,
+            doc,
+            query,
+            where
+        } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app)
+        const diaryEntriesDiv = document.getElementById("diary-entries");
+
+        function formatDate(date) {
+            try {
+                let dateObj = date.toDate ? date.toDate() : new Date(date);
+                if (isNaN(dateObj)) throw new Error("Formato de data inválido");
+                return dateObj.toLocaleDateString("pt-BR");
+            } catch (error) {
+                console.error("Erro ao formatar data:", error);
+                return "Data inválida";
+            }
+        }
+
+        async function loadPages() {
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    // User is signed in, see docs for a list of available properties
+                    // https://firebase.google.com/docs/reference/js/firebase.User
+                    const uid = user.uid;
+                    const diaryListQuery = query(collection(db, "diario"), where("uid", "==", uid));
+
+                    try {
+                        const querySnapshot = await getDocs(diaryListQuery); // Executa a consulta
+                        querySnapshot.forEach((doc) => {
+                            const entry = doc.data(); // Obtém os dados do documento
+                            exibition(doc.id, entry.date, entry.text, entry.mood); // Exibe os dados
+                        });
+                    } catch (error) {
+                        console.error("Error fetching diary entries:", error);
+                    }
+                } else {
+                    // User is signed out
+                    console.log("User is signed out");
+                    // Handle the case where the user is not signed in.
+                }
+            });
+        }
+
+        function exibition(docId, date, text, mood) {
+            if (text && mood && date) {
+                const formattedDate = formatDate(date);
+
+                const pageDiv = document.createElement("div");
+                pageDiv.className = "entry";
+
+                const dataDiv = document.createElement("div");
+                dataDiv.className = "date";
+                dataDiv.textContent = "Data: " + formattedDate;
+
+                const moodDiv = document.createElement("div");
+                moodDiv.className = "mood";
+                moodDiv.textContent = "Humor: " + mood;
+
+                const textDiv = document.createElement("div");
+                textDiv.className = "text";
+                textDiv.textContent =
+                    text.length > 20
+                        ? text.substring(0, 20) + "... Aperte para ler"
+                        : text;
+
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "delete-btn";
+                deleteButton.textContent = "Deletar";
+
+                const editButton = document.createElement("button");
+                editButton.className = "alter-btn";
+                editButton.textContent = "Editar";
+
+                pageDiv.append(dataDiv, moodDiv, textDiv, deleteButton, editButton);
+                diaryEntriesDiv.appendChild(pageDiv);
+
+                deleteButton.addEventListener("click", async () => {
+                    if (confirm("Tem certeza de que deseja deletar esta entrada?")) {
+                        try {
+                            await deleteDoc(doc(db, "diario", docId));
+                            pageDiv.remove();
+                            console.log(`Documento com ID ${docId} deletado com sucesso.`);
+                        } catch (error) {
+                            console.error("Erro ao deletar documento:", error);
+                        }
+                    }
+                });
+
+                editButton.addEventListener("click", () => {
+                    sessionStorage.setItem("entryId", docId);
+                    sessionStorage.setItem("texto", text);
+                    sessionStorage.setItem("humor", mood);
+                    window.location.href = "/src/pet-editar.html";
+                });
+
+                let isTruncated = true;
+
+                textDiv.addEventListener("click", () => {
+                    if (isTruncated) {
+                        textDiv.textContent = text;
+                        isTruncated = false;
+                    } else {
+                        textDiv.textContent =
+                            text.substring(0, 20) + "... Aperte para ler";
+                        isTruncated = true;
+                    }
+                });
+            }
+        }
+
+        loadPages();
+
+    </script>
     <style>
         .entry {
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        position: relative;
-      }
-      .date,
-      .mood,
-      .text {
-        margin: 5px 0;
-      }
-      .delete-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: #ED747D;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-      }
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+
+        .date,
+        .mood,
+        .text {
+            margin: 5px 0;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ED747D;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .alter-btn {
+            margin-left: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
     </style>
 </head>
 
@@ -45,7 +198,7 @@
         <h1 class="text-lg"> Meu diário</h1>
     </header>
 
-    <div id="diary-entries" class="w-10/12 text-black" contenteditable="true">
+    <div id="diary-entries" class="w-10/12 text-black">
 
     </div>
 
@@ -62,7 +215,7 @@
             <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
         </button>
     </div>
-    <script>const diaryEntriesDiv = document.getElementById("diary-entries");
+    <!-- <script>const diaryEntriesDiv = document.getElementById("diary-entries");
 
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
@@ -107,16 +260,7 @@
                     }
                 });
             }
-        }
-        function adjustDivSize() {
-            const diaryEntries = document.getElementById('diary-entries');
-            diaryEntries.style.height = 'auto';
-            diaryEntries.style.height = `${diaryEntries.scrollHeight}px`;
-        }
-
-        const diaryEntries = document.getElementById('diary-entries');
-        diaryEntries.addEventListener('input', adjustDivSize);
-        adjustDivSize();
+        } -->
     </script>
 </body>
 

@@ -62,8 +62,11 @@
             class="p-2 w-full bg-[#727272] placeholder-[#252525] rounded-full pl-4 focus:outline-none" placeholder="Título">
         <input type="text" name="descricao" id="desc"
             class="p-2 w-full bg-[#727272] placeholder-[#252525] rounded-full pl-4 focus:outline-none" placeholder="Descrição">
-        <input type="date" name="prazo" id="prazo" required
-            class="p-2 w-full bg-[#727272] rounded-full pl-4">
+            <input type="text" name="prazo" id="prazo" required
+            class="p-2 w-full bg-[#727272] rounded-full pl-4 text-white placeholder-gray-300 focus:outline-none"
+            placeholder="Selecione uma data"
+            onfocus="(this.type='date')" onblur="(this.type='text')">
+        
 
         <section class="w-full pb-4">
             Período

@@ -55,25 +55,25 @@
 
     <main class="h-4/6 pt-12 w-full flex flex-col items-center text-white">
 
-        <div onclick="openModal('Arrumar a cama', 'Arrumar a cama antes das 9am.', '7am-9am', 'Pessoal')"
+        <div 
             class="w-10/12 bg-lightblue h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
             <input type="checkbox" id="exTaskPessoal" class="hidden peer">
-            <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white">
+            <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white" onclick="document.getElementById('exTaskPessoal').click();">
             </span>
-            <section class="ml-6">
-                <label for="exTaskPessoal" class="text-xl roboto-black">Arrumar a cama</label>
+            <section class="ml-6" onclick="openModal('Arrumar a cama', 'Arrumar a cama antes das 9am.', '7am-9am', 'Pessoal')">
+                <h1 class="text-xl roboto-black">Arrumar a cama</h1>
                 <p class="roboto-bold text-lg">7am-9am</p>
                 <p class="bg-white p-1 mt-2 text-lightblue text-sm roboto-medium w-fit">Pessoal</p>
             </section>
         </div>
 
-        <div onclick="openModal('Fazer lição de história', 'Completar a lição de história antes do almoço.', '9am-12am', 'Escola')"
+        <div
             class="w-10/12 bg-pink h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
             <input type="checkbox" id="exTaskEscola" class="hidden peer">
-            <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white">
+            <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white" onclick="document.getElementById('exTaskEscola').click();">
             </span>
-            <section class="ml-6">
-                <label for="exTaskEscola" class="text-xl roboto-black">Fazer lição de história</label>
+            <section class="ml-6" onclick="openModal('Fazer lição de história', 'Completar a lição de história antes do almoço.', '9am-12am', 'Escola')">
+                <h1 class="text-xl roboto-black">Fazer lição de história</h1>
                 <p class="roboto-bold text-lg">9am-12am</p>
                 <p class="bg-white p-1 mt-2 text-pink text-sm roboto-medium w-fit">Escola</p>
             </section>

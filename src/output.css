@@ -975,12 +975,12 @@ video {
   width: 75%;
 }
 
-.w-\[48px\] {
-  width: 48px;
+.w-\[45\%\] {
+  width: 45%;
 }
 
-.w-\[50\%\] {
-  width: 50%;
+.w-\[48px\] {
+  width: 48px;
 }
 
 .w-fit {
@@ -994,14 +994,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[45\%\] {
-  width: 45%;
-}
-
-.w-\[2\/5\] {
-  width: 2/5;
 }
 
 .max-w-md {
@@ -1635,6 +1627,10 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-\[\#\] {
+  color: #;
 }
 
 .placeholder-\[\#252525\]::-moz-placeholder {

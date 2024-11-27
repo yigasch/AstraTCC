@@ -11,7 +11,7 @@
     <script src="talkback.js"></script>
 </head>
 
-<body class="flex flex-col items-center justify-center">
+<body class="flex flex-col items-center justify-center ">
     <nav
         class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
         <a href="index.html">
@@ -45,42 +45,18 @@
     </a>
 
 
-    <header class="absolute top-0 w-screen flex justify-center items-center text-blue">
-        <img src="assets/icon/tarefas.svg" alt="Tarefas" class="absolute top-0 w-screen">
-        <div class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-lg">
-            <button>
-                <p>Seg</p>
-                <p>20</p>
-            </button>
-            <button>
-                <p>Ter</p>
-                <p>21</p>
-            </button>
-            <button>
-                <p>Qua</p>
-                <p>22</p>
-            </button>
-            <button>
-                <p>Qui</p>
-                <p>23</p>
-            </button>
-            <button>
-                <p>Sex</p>
-                <p>24</p>
-            </button>
-            <button>
-                <p>Sab</p>
-                <p>25</p>
-            </button>
-            <button>
-                <p>Dom</p>
-                <p>26</p>
-            </button>
-        </div>
+    <header class="absolute top-0 w-screen flex justify-center items-center text-blue h-auto">
+        <img src="assets/icon/tarefas.svg" alt="Tarefas" class="absolute top-0 w-screen mb-12">
+        <h1
+            class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-xl roboto-bold text-center pt-6">
+            Sua lista de tarefas
+        </h1>
     </header>
 
-    <main class="h-4/6 mt-10 w-full flex flex-col items-center text-white">
-        <div class="w-10/12 bg-lightblue h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
+    <main class="h-4/6 pt-12 w-full flex flex-col items-center text-white">
+
+        <div onclick="openModal('Arrumar a cama', 'Arrumar a cama antes das 9am.', '7am-9am', 'Pessoal')"
+            class="w-10/12 bg-lightblue h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
             <input type="checkbox" id="exTaskPessoal" class="hidden peer">
             <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white">
             </span>
@@ -91,26 +67,47 @@
             </section>
         </div>
 
-        <div class="w-10/12 bg-pink h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
+        <div onclick="openModal('Fazer lição de história', 'Completar a lição de história antes do almoço.', '9am-12am', 'Escola')"
+            class="w-10/12 bg-pink h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
             <input type="checkbox" id="exTaskEscola" class="hidden peer">
             <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white">
             </span>
             <section class="ml-6">
                 <label for="exTaskEscola" class="text-xl roboto-black">Fazer lição de história</label>
                 <p class="roboto-bold text-lg">9am-12am</p>
-                <p class="bg-white p-1 mt-2 text-pink text-sm roboto-medium w-fit">Pessoal</p>
+                <p class="bg-white p-1 mt-2 text-pink text-sm roboto-medium w-fit">Escola</p>
             </section>
         </div>
     </main>
-    
+
     <div class="place-self-end mx-6 z-10 text-magenta">
         <button onclick="window.location.href='nova-tarefa.html'">
             <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
         </button>
     </div>
-    
 
+    <div id="taskModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white w-10/12 rounded-xl p-6">
+            <h2 id="modal-title" class="text-xl font-bold text-gray-800"></h2>
+            <p id="modal-description" class="text-gray-700 mt-2"></p>
+            <p id="modal-time" class="text-gray-600 mt-2"></p>
+            <p id="modal-category" class="text-gray-600 mt-2"></p>
+            <button onclick="closeModal()" class="mt-4 bg-pink text-white px-4 py-2 rounded">Fechar</button>
+        </div>
+    </div>
+    <script>
+        function openModal(titulo, descricao, horario, categoria) {
+            document.getElementById('modal-title').innerText = titulo;
+            document.getElementById('modal-description').innerText = descricao;
+            document.getElementById('modal-time').innerText = horario;
+            document.getElementById('modal-category').innerText = categoria;
+            document.getElementById('taskModal').classList.remove('hidden');
+        }
 
+        function closeModal() {
+            document.getElementById('taskModal').classList.add('hidden');
+        }
+    </script>
 </body>
 
 </html>

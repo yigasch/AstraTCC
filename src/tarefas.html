@@ -9,9 +9,140 @@
     <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <script src="talkback.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Inicialize o Firebase
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            // Função de login com Google
+            window.loginComGoogle = function () {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        const user = result.user;
+                        window.location.href = './tarefas.html'; // Redireciona após login
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao fazer login:", error);
+                    });
+            };
+
+            // Verifica se o usuário está autenticado
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    carregarTarefas(); // Agora, pode acessar as tarefas
+                } else {
+                    console.log("Nenhum usuário autenticado.");
+                    // Aqui você pode redirecionar para a página de login se necessário
+                }
+            });
+
+            // Função para carregar as tarefas
+            async function carregarTarefas() {
+                const tarefasContainer = document.getElementById("tarefas");
+                tarefasContainer.innerHTML = ""; // Limpa o container antes de carregar as tarefas
+                try {
+                    const tarefasRef = collection(db, "tarefas");
+                    const tarefasSnapshot = await getDocs(tarefasRef);
+
+                    tarefasSnapshot.forEach((doc) => {
+                        const tarefa = { id: doc.id, ...doc.data() }; // Inclui o ID do documento
+
+                        // Cria o elemento de tarefa dinamicamente
+                        const tarefaElement = document.createElement("div");
+                        tarefaElement.className =
+                            "w-10/12 bg-lightblue h-auto p-3 rounded-3xl flex justify-between items-center pl-5 my-2 cursor-pointer";
+                        tarefaElement.id = `tarefa-${doc.id}`;
+
+                        tarefaElement.innerHTML = `
+                    <div class="w-full   tarefa">
+                        <p class="text-xl roboto-black">${tarefa.titulo.length > 15 ? tarefa.titulo.substring(0, 15) + '...' : tarefa.titulo}</p>
+                        <div class="flex justify-between itens-center w-full">
+                            <p class="roboto-bold text-lg">${tarefa.periodoI}-${tarefa.periodoF}</p>
+                            <p class="bg-white p-1 text-lightblue text-sm roboto-medium w-fit">${tarefa.categoria}</p>
+                        </div>
+                    </div>
+                    <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 delete-tarefa" data-id="${tarefa.id}">
+                        Excluir
+                    </button>
+                `;
+
+                        // Adiciona o evento de clique para abrir o modal
+                        tarefaElement.querySelector(".tarefa").addEventListener("click", () => {
+                            abrirModal(tarefa);
+                        });
+
+                        tarefasContainer.appendChild(tarefaElement);
+                    });
+
+                    // Adiciona o evento de exclusão aos botões
+                    const deleteButtons = document.querySelectorAll(".delete-tarefa");
+                    deleteButtons.forEach((button) => {
+                        button.addEventListener("click", (event) => {
+                            const tarefaId = event.target.getAttribute("data-id");
+                            deletarTarefa(tarefaId);
+                        });
+                    });
+                } catch (error) {
+                    console.error("Erro ao carregar tarefas:", error);
+                }
+            }
+
+            // Função para abrir o modal
+            function abrirModal(tarefa) {
+                const modal = document.getElementById("modal-tarefa");
+                document.getElementById("modal-titulo").textContent = tarefa.titulo;
+                document.getElementById("modal-periodo").textContent = `Período: ${tarefa.periodoI} - ${tarefa.periodoF}`;
+                document.getElementById("modal-categoria").textContent = `Categoria: ${tarefa.categoria}`;
+                document.getElementById("modal-descricao").textContent = tarefa.descricao || "Sem descrição.";
+                modal.classList.remove("hidden");
+            }
+
+            // Função para fechar o modal
+            document.getElementById("fechar-modal").addEventListener("click", () => {
+                document.getElementById("modal-tarefa").classList.add("hidden");
+            });
+
+            // Função para deletar a tarefa
+            window.deletarTarefa = async function (tarefaId) {
+                const tarefaRef = doc(db, "tarefas", tarefaId);
+                try {
+                    // Deleta a tarefa do Firestore
+                    await deleteDoc(tarefaRef);
+                    // Remove a tarefa da interface
+                    const tarefaElement = document.getElementById(`tarefa-${tarefaId}`);
+                    tarefaElement.remove();
+                } catch (error) {
+                    console.error("Erro ao deletar tarefa:", error);
+                }
+            };
+        });
+
+
+    </script>
+
+
 </head>
 
-<body class="flex flex-col items-center justify-center ">
+<body class="flex flex-col items-center justify-center">
     <nav
         class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
         <a href="index.html">
@@ -27,9 +158,16 @@
         <a href="artigos.html">
             <i class="fa-solid fa-newspaper fa-xl"></i>
             Artigos</a>
+
     </nav>
 
+
     <footer class="fixed bottom-0 w-screen z-0">
+        <div class="place-self-end mx-6 text-magenta mb-8">
+            <button onclick="window.location.href='nova-tarefa.html'">
+                <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
+            </button>
+        </div>
         <svg class="w-full h-auto" viewBox="0 0 390 79" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M0 0H97.5H124.623C137.281 0 148.263 8.74033 151.103 21.0758L151.852 24.3303C153.9 33.222 158.667 41.2546 165.491 47.3111C182.273 62.2045 207.649 61.986 224.242 46.8826C230.594 41.1005 235.137 33.5669 237.272 25.2468L238.244 21.4574C241.484 8.82977 252.866 0 265.902 0H292.5H390V79H0V0Z"
@@ -44,70 +182,84 @@
         <img src="assets/icon/pet-head.png" alt="Pet" class="z-20">
     </a>
 
-
-    <header class="absolute top-0 w-screen flex justify-center items-center text-blue h-auto">
-        <img src="assets/icon/tarefas.svg" alt="Tarefas" class="absolute top-0 w-screen mb-12">
-        <h1
-            class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-xl roboto-bold text-center pt-6">
-            Sua lista de tarefas
-        </h1>
+    <header class="fixed top-0 w-screen flex justify-center items-center text-blue z-10">
+        <img src="assets/icon/tarefas.svg" alt="Tarefas" class="absolute top-0 w-screen">
+        <div class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-lg">
+            <button>
+                <p>Seg</p>
+                <p>20</p>
+            </button>
+            <button>
+                <p>Ter</p>
+                <p>21</p>
+            </button>
+            <button>
+                <p>Qua</p>
+                <p>22</p>
+            </button>
+            <button>
+                <p>Qui</p>
+                <p>23</p>
+            </button>
+            <button>
+                <p>Sex</p>
+                <p>24</p>
+            </button>
+            <button>
+                <p>Sab</p>
+                <p>25</p>
+            </button>
+            <button>
+                <p>Dom</p>
+                <p>26</p>
+            </button>
+        </div>
     </header>
 
-    <main class="h-4/6 pt-12 w-full flex flex-col items-center text-white">
-
-        <div 
-            class="w-10/12 bg-lightblue h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
-            <input type="checkbox" id="exTaskPessoal" class="hidden peer">
-            <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white" onclick="document.getElementById('exTaskPessoal').click();">
-            </span>
-            <section class="ml-6" onclick="openModal('Arrumar a cama', 'Arrumar a cama antes das 9am.', '7am-9am', 'Pessoal')">
-                <h1 class="text-xl roboto-black">Arrumar a cama</h1>
-                <p class="roboto-bold text-lg">7am-9am</p>
-                <p class="bg-white p-1 mt-2 text-lightblue text-sm roboto-medium w-fit">Pessoal</p>
-            </section>
-        </div>
-
-        <div
-            class="w-10/12 bg-pink h-auto p-3 rounded-3xl flex flex-row items-center pl-5 my-2">
-            <input type="checkbox" id="exTaskEscola" class="hidden peer">
-            <span class="w-6 h-6 ring-2 rounded-full ring-white peer-checked:bg-white" onclick="document.getElementById('exTaskEscola').click();">
-            </span>
-            <section class="ml-6" onclick="openModal('Fazer lição de história', 'Completar a lição de história antes do almoço.', '9am-12am', 'Escola')">
-                <h1 class="text-xl roboto-black">Fazer lição de história</h1>
-                <p class="roboto-bold text-lg">9am-12am</p>
-                <p class="bg-white p-1 mt-2 text-pink text-sm roboto-medium w-fit">Escola</p>
-            </section>
-        </div>
-    </main>
-
-    <div class="place-self-end mx-6 z-10 text-magenta">
-        <button onclick="window.location.href='nova-tarefa.html'">
-            <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
-        </button>
-    </div>
-
-    <div id="taskModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white w-10/12 rounded-xl p-6">
-            <h2 id="modal-title" class="text-xl font-bold text-gray-800"></h2>
-            <p id="modal-description" class="text-gray-700 mt-2"></p>
-            <p id="modal-time" class="text-gray-600 mt-2"></p>
-            <p id="modal-category" class="text-gray-600 mt-2"></p>
-            <button onclick="closeModal()" class="mt-4 bg-pink text-white px-4 py-2 rounded">Fechar</button>
+    <div class="h-4/6 mt-10 w-full flex flex-col items-center text-white">
+        <div id="tarefas" class="h-full w-11/12 flex flex-col items-center text-white overflow-y-auto">
+            <!-- As tarefas serão renderizadas aqui dinamicamente -->
         </div>
     </div>
-    <script>
-        function openModal(titulo, descricao, horario, categoria) {
-            document.getElementById('modal-title').innerText = titulo;
-            document.getElementById('modal-description').innerText = descricao;
-            document.getElementById('modal-time').innerText = horario;
-            document.getElementById('modal-category').innerText = categoria;
-            document.getElementById('taskModal').classList.remove('hidden');
-        }
 
-        function closeModal() {
-            document.getElementById('taskModal').classList.add('hidden');
-        }
-    </script>
+
+
+
+    <div id="modal-tarefa" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-xl w-10/12 max-w-sm p-6 text-gray-800 relative overflow-hidden">
+            <!-- Título da Tarefa -->
+            <h2 id="modal-titulo" class="text-2xl font-bold mb-4 break-word">
+                Título da Tarefa
+            </h2>
+
+            <!-- Período -->
+            <p id="modal-periodo" class="text-lg mb-2 break-word">
+                Período:
+            </p>
+
+            <!-- Categoria -->
+            <p id="modal-categoria" class="text-lg mb-4 break-word">
+                Categoria:
+            </p>
+
+            <!-- Descrição -->
+            <p id="modal-descricao" class="text-gray-700 break-word">
+                Descrição completa da tarefa. Este texto irá quebrar corretamente no limite do contêiner, mesmo que
+                contenha palavras longas ou espaços incomuns.
+            </p>
+
+            <!-- Botão Fechar -->
+            <button id="fechar-modal" class="mt-4 bg-pink text-white px-4 py-2 rounded hover:bg-pink-700">
+                <i class="fa-solid fa-times fa-xl"></i>
+            </button>
+        </div>
+    </div>
+
+
+
+
+
+
 </body>
 
 </html>

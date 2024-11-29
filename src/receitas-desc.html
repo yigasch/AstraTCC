@@ -9,11 +9,80 @@
     <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <script src="talkback.js"></script>
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+    
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+    
+        // Obter o ID da receita da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const receitaId = urlParams.get('id');
+    
+        // Buscar a receita no Firestore
+        async function carregarReceita() {
+            const receitaRef = doc(db, "receitas", receitaId);
+            const receitaDoc = await getDoc(receitaRef);
+    
+            if (receitaDoc.exists()) {
+                const receita = receitaDoc.data();
+    
+                // Exibir título
+                document.getElementById("titulo-receita").textContent = receita.titulo;
+    
+                // Adicionar ingredientes (caso seja uma string separada por vírgulas)
+                const ingredientesList = document.getElementById("ingredientes");
+                if (receita.ingredientes) {
+                    const ingredientesArray = receita.ingredientes.split(','); // separa por vírgulas
+                    ingredientesArray.forEach(ingrediente => {
+                        const li = document.createElement("li");
+                        li.textContent = ingrediente.trim(); // remove espaços extras
+                        ingredientesList.appendChild(li);
+                    });
+                }
+    
+                // Adicionar modo de preparo (caso seja uma string separada por vírgulas)
+                const modoPreparoList = document.getElementById("modo-preparo");
+                if (receita.preparo) {
+                    const modoPreparoArray = receita.preparo.split(','); // separa por vírgulas
+                    modoPreparoArray.forEach(passo => {
+                        const li = document.createElement("li");
+                        li.textContent = passo.trim(); // remove espaços extras
+                        modoPreparoList.appendChild(li);
+                    });
+                }
+            } else {
+                document.getElementById("titulo-receita").textContent = "Receita não encontrada";
+                document.getElementById("ingredientes").textContent = "A receita solicitada não existe.";
+                document.getElementById("modo-preparo").textContent = "A receita solicitada não existe.";
+            }
+        }
+    
+        carregarReceita();
+    </script>
+    
+    
+    
 </head>
 
 <body class="flex flex-col items-center justify-end">
-    <nav
-        class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
+    <nav class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
         <a href="index.html">
             <i class="fa-solid fa-house fa-xl"></i>
             Home</a>
@@ -31,9 +100,7 @@
 
     <footer class="fixed bottom-0 w-screen z-0">
         <svg class="w-full h-auto" viewBox="0 0 390 79" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M0 0H97.5H124.623C137.281 0 148.263 8.74033 151.103 21.0758L151.852 24.3303C153.9 33.222 158.667 41.2546 165.491 47.3111C182.273 62.2045 207.649 61.986 224.242 46.8826C230.594 41.1005 235.137 33.5669 237.272 25.2468L238.244 21.4574C241.484 8.82977 252.866 0 265.902 0H292.5H390V79H0V0Z"
-                fill="#C566F5" />
+            <path d="M0 0H97.5H124.623C137.281 0 148.263 8.74033 151.103 21.0758L151.852 24.3303C153.9 33.222 158.667 41.2546 165.491 47.3111C182.273 62.2045 207.649 61.986 224.242 46.8826C230.594 41.1005 235.137 33.5669 237.272 25.2468L238.244 21.4574C241.484 8.82977 252.866 0 265.902 0H292.5H390V79H0V0Z" fill="#C566F5" />
         </svg>
     </footer>
 
@@ -44,17 +111,13 @@
         <img src="assets/icon/pet-head.png" alt="Pet" class="z-20">
     </a>
 
-
     <header class="flex items-center w-screen absolute top-0 justify-center">
         <img src="assets/icon/alimentacao.svg" alt="Receitas" class="absolute top-0 w-screen">
 
         <a href="receitas.html" class="ml-4 text-white z-20 mt-14">
             <i class="fa-solid fa-reply fa-2x"></i>
         </a>    
-        <h1 id="titulo-receita"
-            class="z-20 text-white text-start mt-10 w-10/12 pl-6 text-2xl roboto-bold pt-6">
-            
-        </h1>
+        <h1 id="titulo-receita" class="z-20 text-white text-start mt-10 w-10/12 pl-6 text-2xl roboto-bold pt-6 break-word"></h1>
     </header>
 
     <main class="h-4/5 w-full flex flex-col items-center text-mediumgray p-8">
@@ -63,92 +126,6 @@
         <h2 class="roboto-bold text-xl mt-8">Modo de preparo:</h2>
         <p id="modo-preparo" class=""></p>
     </main>
-
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const receitaId = urlParams.get('id');
-
-        const receitas = {
-            1: {
-                titulo: "Brownie de Chocolate",
-                ingredientes: [
-                    "200g de chocolate meio amargo",
-                    "100g de manteiga",
-                    "1 xícara de açúcar",
-                    "2 ovos",
-                    "1 xícara de farinha de trigo",
-                    "Uma pitada de sal"
-                ],
-                modoPreparo: [
-                    "Pré-aqueça o forno a 180°C e unte uma assadeira.",
-                    "Derreta o chocolate com a manteiga em banho-maria, mexendo até ficar homogêneo.",
-                    "Em outra tigela, bata os ovos com o açúcar até misturar bem. Adicione a baunilha e o sal.",
-                    "Incorpore o chocolate derretido na mistura de ovos, mexendo até combinar.",
-                    "Adicione a farinha aos poucos, mexendo delicadamente. Se desejar, acrescente as nozes."
-                ]
-            },
-            2: {
-                titulo: "Bolo de Cenoura",
-                ingredientes: [
-                    "3 cenouras médias picadas",
-                    "4 ovos",
-                    "1 xícara de óleo",
-                    "2 xícaras de açúcar",
-                    "2 xícaras de farinha de trigo",
-                    "1 colher de sopa de fermento em pó"
-                ],
-                modoPreparo: [
-                    "Preaqueça o forno a 180°C e unte uma assadeira.",
-                    "Bata as cenouras, os ovos e o óleo no liquidificador até ficar homogêneo.",
-                    "Em uma tigela, misture o açúcar e a farinha, e adicione a mistura do liquidificador.",
-                    "Misture bem e adicione o fermento, mexendo delicadamente.",
-                    "Despeje a massa na assadeira e leve ao forno por 35-40 minutos.",
-                    "Deixe esfriar e sirva com cobertura de chocolate, se desejar."
-                ]
-            },
-            3: {
-                titulo: "Torta de Limão",
-                ingredientes: [
-                    "1 pacote de biscoito de maisena",
-                    "100g de manteiga derretida",
-                    "1 lata de leite condensado",
-                    "1/2 xícara de suco de limão",
-                    "Raspas de limão para decorar"
-                ],
-                modoPreparo: [
-                    "Triture os biscoitos e misture com a manteiga, formando a massa.",
-                    "Forre uma forma com a massa e leve ao freezer por 15 minutos.",
-                    "Misture o leite condensado com o suco de limão e despeje sobre a massa.",
-                    "Decore com raspas de limão e leve à geladeira por 2 horas antes de servir."
-                ]
-            }
-        };
-
-        if (receitas[receitaId]) {
-            const receita = receitas[receitaId];
-
-            document.getElementById("titulo-receita").textContent = receita.titulo;
-
-            const ingredientesList = document.getElementById("ingredientes");
-            receita.ingredientes.forEach(ingrediente => {
-                const li = document.createElement("li");
-                li.textContent = ingrediente;
-                ingredientesList.appendChild(li);
-            });
-
-            const modoPreparoList = document.getElementById("modo-preparo");
-            receita.modoPreparo.forEach(passo => {
-                const li = document.createElement("li");
-                li.textContent = passo;
-                modoPreparoList.appendChild(li);
-            });
-        } else {
-            document.getElementById("titulo-receita").textContent = "Receita não encontrada";
-            document.getElementById("ingredientes").textContent = "A receita solicitada não existe.";
-        }
-    </script>
-
-
 </body>
 
 </html>

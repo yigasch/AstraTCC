@@ -176,6 +176,11 @@ body {
   /* 2 */
 }
 
+.break-word {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 /*
 1. Add the correct height in Firefox.
 2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
@@ -189,6 +194,13 @@ hr {
   /* 2 */
   border-top-width: 1px;
   /* 3 */
+}
+
+.container {
+  width: 416px; /* Largura fixa */
+  height: 300px; /* Altura fixa, você pode ajustar conforme necessário */
+  overflow-x: auto; /* Habilita a rolagem vertical */ /* Apenas para visualização */
+  padding: 16px; /* Espaçamento interno */
 }
 
 /*
@@ -636,10 +648,6 @@ video {
   position: relative;
 }
 
-.inset-0 {
-  inset: 0px;
-}
-
 .inset-y-0 {
   top: 0px;
   bottom: 0px;
@@ -649,20 +657,12 @@ video {
   bottom: 0px;
 }
 
-.left-4 {
-  left: 1rem;
-}
-
 .start-0 {
   inset-inline-start: 0px;
 }
 
 .top-0 {
   top: 0px;
-}
-
-.top-4 {
-  top: 1rem;
 }
 
 .z-0 {
@@ -675,10 +675,6 @@ video {
 
 .z-20 {
   z-index: 20;
-}
-
-.z-50 {
-  z-index: 50;
 }
 
 .m-0 {
@@ -975,12 +971,12 @@ video {
   width: 75%;
 }
 
-.w-\[45\%\] {
-  width: 45%;
-}
-
 .w-\[48px\] {
   width: 48px;
+}
+
+.w-auto {
+  width: auto;
 }
 
 .w-fit {
@@ -1127,10 +1123,6 @@ video {
   overflow: hidden;
 }
 
-.rounded {
-  border-radius: 0.25rem;
-}
-
 .rounded-3xl {
   border-radius: 1.5rem;
 }
@@ -1145,6 +1137,10 @@ video {
 
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded {
+  border-radius: 0.25rem;
 }
 
 .border {
@@ -1178,11 +1174,6 @@ video {
 .bg-\[\#3E5DCD\] {
   --tw-bg-opacity: 1;
   background-color: rgb(62 93 205 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#414141\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(65 65 65 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#474747\] {
@@ -1245,11 +1236,6 @@ video {
   background-color: rgb(245 102 112 / var(--tw-bg-opacity));
 }
 
-.bg-\[\#F59870\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(245 152 112 / var(--tw-bg-opacity));
-}
-
 .bg-\[\#bb96ec\] {
   --tw-bg-opacity: 1;
   background-color: rgb(187 150 236 / var(--tw-bg-opacity));
@@ -1258,11 +1244,6 @@ video {
 .bg-\[\#c4c4c4\] {
   --tw-bg-opacity: 1;
   background-color: rgb(196 196 196 / var(--tw-bg-opacity));
-}
-
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
 .bg-blue {
@@ -1310,8 +1291,9 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-opacity-50 {
-  --tw-bg-opacity: 0.5;
+.bg-gray-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-br {
@@ -1406,6 +1388,10 @@ video {
   padding-bottom: 1rem;
 }
 
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -1434,8 +1420,8 @@ video {
   padding-top: 0.25rem;
 }
 
-.pt-12 {
-  padding-top: 3rem;
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .pt-6 {
@@ -1476,6 +1462,10 @@ video {
 
 .text-\[10px\] {
   font-size: 10px;
+}
+
+.text-\[15px\] {
+  font-size: 15px;
 }
 
 .text-base {
@@ -1529,6 +1519,11 @@ video {
   color: rgb(37 37 37 / var(--tw-text-opacity));
 }
 
+.text-\[\#5BAAE1\] {
+  --tw-text-opacity: 1;
+  color: rgb(91 170 225 / var(--tw-text-opacity));
+}
+
 .text-\[\#808080\] {
   --tw-text-opacity: 1;
   color: rgb(128 128 128 / var(--tw-text-opacity));
@@ -1554,9 +1549,19 @@ video {
   color: rgb(173 173 173 / var(--tw-text-opacity));
 }
 
+.text-\[\#B556E4\] {
+  --tw-text-opacity: 1;
+  color: rgb(181 86 228 / var(--tw-text-opacity));
+}
+
 .text-\[\#EFEFEF\] {
   --tw-text-opacity: 1;
   color: rgb(239 239 239 / var(--tw-text-opacity));
+}
+
+.text-\[\#F56670\] {
+  --tw-text-opacity: 1;
+  color: rgb(245 102 112 / var(--tw-text-opacity));
 }
 
 .text-black {
@@ -1599,11 +1604,6 @@ video {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-.text-gray-800 {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity));
-}
-
 .text-lightblue {
   --tw-text-opacity: 1;
   color: rgb(132 178 209 / var(--tw-text-opacity));
@@ -1629,10 +1629,6 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.text-\[\#\] {
-  color: #;
-}
-
 .placeholder-\[\#252525\]::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(37 37 37 / var(--tw-placeholder-opacity));
@@ -1651,16 +1647,6 @@ video {
 .placeholder-black::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(0 0 0 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-700::-moz-placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-700::placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
 }
 
 .shadow-custominput {

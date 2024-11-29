@@ -6,8 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questionário</title>
     <link rel="stylesheet" href="output.css">
-    <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+
+        const userNameElement = document.getElementById("user-name");
+
+        // Função para verificar se o usuário está autenticado
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Usuário autenticado:", user);
+                const displayName = user.displayName || "Usuário sem nome";
+                userNameElement.textContent = `Bem-vindo, ${displayName}`;
+            } else {
+                console.log("Nenhum usuário autenticado.");
+                userNameElement.textContent = "Nenhum usuário autenticado.";
+                // Aqui você pode redirecionar para a página de login se necessário
+            }
+        });
+
+    </script>
 
 </head>
 
@@ -15,7 +56,7 @@
     <img src="assets/bar-questionario-2.png" class="w-screen">
 
     <div class="w-4/5 text-[#868686] *:text-center h-1/3 flex flex-col items-center">
-        <h1 class="font-extrabold text-2xl mb-2">Bem-vindo, [Usuário]!</h1>
+        <div class="roboto-bold text-lg" id="user-name">Carregando...</div>
         <h2 class="font-semibold text-sm">Responda algumas perguntas para personalizar sua experiência no Astra</h2>
         <a href="questionario-pergunta.html" class="text-white w-3/5 bg-[#3DA1E7] p-2 rounded-3xl mt-10 active:bg-[#308dcf]"><button>Iniciar</button></a>
     </div>

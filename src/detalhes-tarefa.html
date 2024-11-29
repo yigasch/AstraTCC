@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Tarefa</title>
+    <link rel="stylesheet" href="output.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    // Recupera os dados da tarefa do localStorage
+    const tarefa = JSON.parse(localStorage.getItem("tarefaSelecionada"));
+
+    if (tarefa) {
+        // Preenche os dados no HTML
+        document.getElementById("titulo-tarefa").textContent = tarefa.titulo;
+        document.getElementById("periodo-tarefa").textContent = `Período: ${tarefa.periodoI} - ${tarefa.periodoF}`;
+        document.getElementById("categoria-tarefa").textContent = `Categoria: ${tarefa.categoria}`;
+        document.getElementById("descricao-tarefa").textContent = tarefa.descricao || "Sem descrição.";
+    } else {
+        console.error("Nenhuma tarefa encontrada!");
+    }
+});
+
+// Função para voltar à tela anterior
+function voltar() {
+    window.location.href = "tarefas.html";
+}
+
+    </script>
+
+</head>
+<body class="flex flex-col items-center justify-center">
+    <div class="bg-white w-36 flex flex-col items-center rounded-2xl shadow-xl p-6 text-gray-800">
+        <h2 id="titulo-tarefa" class="text-2xl font-bold mb-4"></h2>
+        <p id="periodo-tarefa" class="text-lg mb-2 break-word"></p>
+        <p id="categoria-tarefa" class="text-lg break-word mb-4"></p>
+        <p id="descricao-tarefa" class="text-gray-700 text-lg mb-2 break-word"></p>
+        <button onclick="voltar()" class="mt-4 bg-lightblue text-white px-4 py-2 rounded">
+            Voltar
+        </button>
+    </div>
+    <script src="detalhes-tarefa.js"></script>
+</body>
+</html>

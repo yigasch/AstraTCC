@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-    <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <link rel="stylesheet" href="output.css">
 
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs,  doc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,11 +24,13 @@
             storageBucket: "astra-f3359.appspot.com",
             messagingSenderId: "844343798659",
             appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
         };
 
         // Inicialize o Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
 
         window.loginComGoogle = function () {
@@ -37,19 +38,20 @@
             signInWithPopup(auth, provider)
                 .then((result) => {
                     const user = result.user;
-                    window.location.href = './index.html';
+                    window.location.href = './questionario.html';
                 })
                 .catch((error) => {
                     console.error("Erro ao fazer login:", error);
                 });
         };
+
 
         window.loginComFacebook = function () {
             const provider = new FacebookAuthProvider();
             signInWithPopup(auth, provider)
                 .then((result) => {
                     const user = result.user;
-                    window.location.href = './index.html';
+                    window.location.href = './questionario.html';
                 })
                 .catch((error) => {
                     console.error("Erro ao fazer login:", error);
@@ -58,20 +60,47 @@
 
 
 
-        window.cadastro = function () {
+        window.cadastro = async function () {
+    try {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const username = document.getElementById("username").value.trim();
 
-            const email = document.getElementById("email").value
-            const password = document.getElementById("password").value
-            const provider = createUserWithEmailAndPassword(auth, email, password);
-            console.log(provider)
-            window.location.href = './login.html';            
+        // Verificar se os campos estão preenchidos
+        if (!email || !password || !username) {
+            alert("Preencha todos os campos.");
+            return;
         }
+
+        // Criar usuário com email e senha
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+        // Obter o UID do usuário criado
+        const userId = userCredential.user.uid;
+
+        // Criar documento no Firestore para armazenar o nome de usuário
+        await setDoc(doc(db, "users", userId), {
+            email: email,
+            username: username, // Nome do usuário
+            createdAt: new Date().toISOString() // Data de criação
+        });
+
+        console.log("Usuário criado e salvo no Firestore:", userCredential);
+
+        // Redirecionar para a página de login
+        window.location.href = './questionario.html';
+    } catch (error) {
+        console.error("Erro ao criar conta:", error);
+        alert("Ocorreu um erro ao criar a conta: " + error.message);
+    }
+};
 
 
     </script>
 </head>
 
-<body class="bg-gradient-to-br from-[#B8E0F7] via-[#8BC8F2] to-[#378ae8] flex flex-col items-center text-white font-roboto">    
+<body
+    class="bg-gradient-to-br from-[#B8E0F7] via-[#8BC8F2] to-[#378ae8] flex flex-col items-center text-white font-roboto">
     <img src="assets/bar-cadastro.png" class="bottom-0 fixed w-screen">
 
     <div class="flex flex-col items-center my-10">
@@ -84,7 +113,7 @@
         <input id="email" type="text" name="" placeholder="Email"
             class="pl-5 placeholder:text-sm mb-3  text-[#9B9B9B] focus:outline-none shadow-custominput" required>
 
-        <input type="text" name="" placeholder="Usuário"
+        <input id="username" type="text" name="" placeholder="Usuário"
             class="pl-5  placeholder:text-sm mb-3  text-[#9B9B9B] focus:outline-none shadow-custominput" required>
 
         <input id="password" type="password" name="" placeholder="Senha"
@@ -103,7 +132,7 @@
             <h3 class="mb-3 text-center">Você também pode entrar com</h3>
             <section class="flex flex-row justify-around text-white w-full *:rounded-3xl *:w-2/5">
                 <button onclick="loginComGoogle()" class="bg-[#D44A4A] p-2">Google</button>
-                <button onclick="loginComFacebook()"class="bg-[#3E5DCD] p-2">Facebook</button>
+                <button onclick="loginComFacebook()" class="bg-[#3E5DCD] p-2">Facebook</button>
             </section>
         </section>
 

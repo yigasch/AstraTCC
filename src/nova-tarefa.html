@@ -9,7 +9,59 @@
     <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <script src="talkback.js"></script>
+    <script type="module">
+        // Importar as funções do Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        // Inicializar o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Função para salvar tarefa no Firestore
+        window.salvarTarefa = async function () {
+            const taskTitle = document.getElementById('titulo').value;
+            const taskTags = document.getElementById('categoria').value;
+            const taskDisc = document.getElementById('desc').value;
+            const taskDate = document.getElementById('prazo').value;
+            const PERstart = document.getElementById('periodoInicio').value;
+            const PERend = document.getElementById('periodoFim').value;
+
+            if (!taskTitle || !taskDisc || !taskDate || !taskTags || !PERstart || !PERend) {
+                alert("Por favor, preencha todos os campos antes de salvar.");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "tarefas"), {
+                    titulo: taskTitle,
+                    descricao: taskDisc,
+                    data: taskDate,
+                    periodoI: PERstart,
+                    periodoF: PERend,
+                    categoria: taskTags,
+                    uid: auth.currentUser?.uid || null,
+                });
+                window.location = "tarefas.html"
+            } catch (error) {
+                console.error("Erro ao salvar tarefa:", error);
+                alert("Erro ao salvar tarefa. Tente novamente.");
+            }
+        };
+    </script>
 </head>
 
 <body class="flex flex-col items-center justify-start">
@@ -61,10 +113,8 @@
             class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Título">
         <input type="text" name="descricao" id="desc"
             class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Descrição">
-            <input type="text" name="prazo" id="prazo" required
-            class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none"
-            placeholder="Selecione uma data" 
-            onfocus="(this.type='date')" onblur="(this.type='text')">
+        <input type="date" name="prazo" id="prazo" required
+            class="p-2 w-full bg-lightgray rounded-full pl-4">
 
         <section class="w-full pb-4">
             Período
@@ -82,12 +132,11 @@
             <option value="trabalho">Trabalho</option>
         </select>
 
-        <button class="w-full bg-lightblue shadow-custominput p-2 rounded-full text-white text-lg roboto-bold align-self-end">Salvar tarefa</button>
+        <button onclick="salvarTarefa()" class="w-full bg-lightblue shadow-custominput p-2 rounded-full text-white text-lg roboto-bold align-self-end">Salvar tarefa</button>
     </main>
 
 
 
 
 </body>
-
 </html>

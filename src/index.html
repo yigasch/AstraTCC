@@ -10,6 +10,48 @@
     <link rel="manifest" href="manifest.json">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+
+        const userNameElement = document.getElementById("user-name");
+
+        // Função para verificar se o usuário está autenticado
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Usuário autenticado:", user);
+                const displayName = user.displayName || "Usuário sem nome";
+                userNameElement.textContent = `Bem-vindo, ${displayName}`;
+            } else {
+                console.log("Nenhum usuário autenticado.");
+                userNameElement.textContent = "Nenhum usuário autenticado.";
+                // Aqui você pode redirecionar para a página de login se necessário
+            }
+        });
+
+    </script>
+
 </head>
 
 <body class="flex flex-col items-center">
@@ -46,14 +88,11 @@
         <img src="assets/icon/pet-head.png" alt="Pet" class="z-20">
     </a>
 
-    <!-- barra superior -->
     <header class="w-screen h-auto flex justify-between items-center text-blue">
         <img src="assets/Astra-icon.png" alt="Astra-icon">
-        <p class="roboto-bold text-lg">Bem-vindo, usuário!</p>
-        <a href="perfil.html" class="flex flex-col items-center justify-center roboto-bold text-sm"><i class="fa-solid fa-user fa-2xl m-4"></i> Perfil</a>
+        <div class="roboto-bold text-lg" id="user-name">Carregando...</div>
+        <a href="perfil.html"><i class="fa-solid fa-user fa-2xl m-4"></i></a>
     </header>
-
-    <!-- conteúdo princ -->
     <main class="flex flex-col items-center justify-center text-white mt-8">
         <a href="nova-tarefa.html" class="bg-[#9C70D4] p-4 rounded-3xl flex justify-around items-center w-10/12 mt-6">
             <div>

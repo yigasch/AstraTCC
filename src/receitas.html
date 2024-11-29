@@ -10,9 +10,110 @@
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <script src="talkback.js"></script>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            deleteDoc,
+            doc,
+            query,
+            where,
+            updateDoc
+        } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+
+
+        // Função para verificar se o usuário está autenticado
+        document.addEventListener("DOMContentLoaded", () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            console.log("Usuário autenticado:", user);
+            const receitasContainer = document.querySelector("main");
+            if (!receitasContainer) {
+                console.error("Elemento <main> não encontrado no DOM.");
+                return;
+            }
+            const uid = user.uid;
+            try {
+                const favoritesRef = query(collection(db, "receitas"), where("uid", "==", uid));
+                const receitasSnapshot = await getDocs(favoritesRef);
+
+                receitasSnapshot.forEach((doc) => {
+                    const receita = doc.data();
+                    const isFavorited = receita.isFavorited || false; // Verifica se a receita já é favorita
+                    const receitaHTML = `
+                        <div class="w-10/12 h-auto p-4 rounded-xl px-4 my-2 ring-1 ring-mediumgray flex flex-row text-pink justify-between items-center">
+                            <a href="receitas-desc.html?id=${doc.id}">
+                                <h1 class="text-lightblue roboto-bold">${receita.titulo}</h1>
+                                <p class="text-sm text-mediumgray">${receita.ingredientes ? receita.ingredientes.slice(0, 50) + "..." : "Sem ingredientes disponíveis"}</p>
+                            </a>
+                            <i class="fa-${isFavorited ? "solid" : "regular"} fa-heart fa-2xl favoriteIcon" data-id="${doc.id}"></i>
+                        </div>
+                    `;
+                    receitasContainer.innerHTML += receitaHTML;
+                });
+
+                const favoriteIcons = document.querySelectorAll(".favoriteIcon");
+                favoriteIcons.forEach((icon) => {
+                    icon.addEventListener("click", async () => {
+                        const receitaId = icon.getAttribute("data-id");
+                        const receitaDocRef = doc(db, "receitas", receitaId);
+
+                        // Alterna o estado do ícone
+                        const isCurrentlyFavorited = icon.classList.contains("fa-solid");
+                        icon.classList.toggle("fa-regular", isCurrentlyFavorited);
+                        icon.classList.toggle("fa-solid", !isCurrentlyFavorited);
+
+                        try {
+                            // Atualiza o estado do favorito no Firestore
+                            await updateDoc(receitaDocRef, { isFavorited: !isCurrentlyFavorited });
+                            console.log(`Receita ${receitaId} atualizada para favorito: ${!isCurrentlyFavorited}`);
+                        } catch (error) {
+                            console.error("Erro ao atualizar favorito:", error);
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error("Erro ao carregar receitas:", error);
+            }
+        } else {
+            console.log("Nenhum usuário autenticado.");
+        }
+    });
+});
+
+
+
+        // Função para carregar as receitas
+        
+    </script>
+
+
 </head>
 
-<body class="flex flex-col items-center justify-end">
+<body class="flex flex-col items-center justify-center">
     <nav
         class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
         <a href="index.html">
@@ -28,9 +129,16 @@
         <a href="artigos.html">
             <i class="fa-solid fa-newspaper fa-xl"></i>
             Artigos</a>
+
     </nav>
 
+
     <footer class="fixed bottom-0 w-screen z-0">
+        <div class="place-self-end mx-6 text-magenta mb-8">
+            <button onclick="window.location.href='nova-receita.html'">
+                <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
+            </button>
+        </div>
         <svg class="w-full h-auto" viewBox="0 0 390 79" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M0 0H97.5H124.623C137.281 0 148.263 8.74033 151.103 21.0758L151.852 24.3303C153.9 33.222 158.667 41.2546 165.491 47.3111C182.273 62.2045 207.649 61.986 224.242 46.8826C230.594 41.1005 235.137 33.5669 237.272 25.2468L238.244 21.4574C241.484 8.82977 252.866 0 265.902 0H292.5H390V79H0V0Z"
@@ -45,51 +153,30 @@
         <img src="assets/icon/pet-head.png" alt="Pet" class="z-20">
     </a>
 
-
-    <header class="absolute top-0 w-screen flex justify-center items-center text-blue">
-        <img src="assets/icon/alimentacao.svg" alt="Receitas" class="absolute top-0 w-screen">
-        <h1
-            class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-xl roboto-bold text-center pt-6">
-            Experimente algumas de nossas receitas
-        </h1>
+    <header class="fixed top-0 w-screen flex justify-center items-center text-blue z-10">
+        <img src="assets/icon/alimentacao.svg" alt="Tarefas" class="absolute top-0 w-screen">
+        <div class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-lg">
+            <h1
+                class="z-20 text-white space-x-2 mt-4 flex justify-around w-11/12 *:p-2 text-xl roboto-bold text-center pt-6">
+                Experimente algumas de nossas receitas</h1>
+        </div>
     </header>
 
-    <main class="h-1/2 w-full flex flex-col text-white items-center">
-        <div class="w-10/12 h-auto p-4 rounded-xl px-4 my-2 ring-1 ring-mediumgray flex flex-row text-pink justify-between items-center">
-            <a href="receitas-desc.html?id=1">
-                <h1 class="text-lightblue roboto-bold">Título do prato ou alimento</h1>
-                <p class="text-sm text-mediumgray">Prévia da descrição</p>
-            </a>
-            <i class="fa-regular fa-heart fa-2xl favoriteIcon"></i>
-        </div>
-
-        <div class="w-10/12 h-auto p-4 rounded-xl px-4 my-2 ring-1 ring-mediumgray flex flex-row text-pink justify-between items-center">
-            <a href="receitas-desc.html?id=2">
-                <h1 class="text-lightblue roboto-bold">Título do prato ou alimento</h1>
-                <p class="text-sm text-mediumgray">Prévia da descrição</p>
-            </a>
-            <i class="fa-regular fa-heart fa-2xl favoriteIcon"></i>
-        </div>
-    </main>
-
-
-    <div class="place-self-end mx-6 z-0 text-magenta h-1/5">
-        <button onclick="window.location.href='nova-receita.html'">
-            <i class="fa-solid fa-circle-plus fa-3x fa-layers bg-white rounded-full"></i>
-        </button>
+    <div class="h-4/6 mt-10 w-full flex flex-col items-center text-white">
+        <main  class="container h-full w-11/12 flex flex-col items-center text-white overflow-y-auto">
+            <!-- As tarefas serão renderizadas aqui dinamicamente -->
+        </main>
     </div>
 
-    <script>
-        const favoriteIcons = document.querySelectorAll('.favoriteIcon');
-    
-        favoriteIcons.forEach(icon => {
-            icon.addEventListener("click", () => {
-                icon.classList.toggle("fa-regular");
-                icon.classList.toggle("fa-solid");
-            });
-        });
-    </script>
-    
+
+
+
+
+
+
+
+
+
 
 </body>
 

@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="output.css">
-    <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <title>Perfil</title>
 </head>
@@ -18,11 +17,9 @@
         <img src="assets/perfil.svg" alt="Decor" class="w-screen z-0">
 
         <div class="flex flex-col items-center absolute transform -translate-y-1/2 w-full">
-            <label for="fotoPerfilInput" class="">
-                <img id="fotoPerfil" class="rounded-full object-cover w-28 h-28 bg-[#c4c4c4]" src="assets/icon/user.svg"
-                    alt="Foto de Perfil">
-            </label>
-            <input id="fotoPerfilInput" type="file" accept="image/*" onchange="previewFoto(event)" hidden>
+
+            <img id="user-photo" alt="Foto do Usuário" src="" class="rounded-full object-cover w-28 h-28 bg-[#c4c4c4]">
+
         </div>
 
     </header>
@@ -30,7 +27,8 @@
 
     <main class="flex flex-col w-3/5 items-center h-2/3">
 
-        <h1 class="text-2xl mb-8">Nome de usuário</h1>
+        <h1 id="user-name" class="text-2xl mb-8">carregando...</h1>
+
 
         <div class="flex flex-col roboto-bold text-xl w-full space-y-4">
             <p class="flex justify-between">Talkback
@@ -62,7 +60,7 @@
     <script type="module">
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
@@ -77,6 +75,25 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        const userNameElement = document.getElementById("user-name");
+        const userPhotoElement = document.getElementById("user-photo");
+
+        // Função para verificar se o usuário está autenticado
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Usuário autenticado:", user);
+                const displayName = user.displayName || "Usuário sem nome";
+                const photoURL = user.photoURL || "https://via.placeholder.com/100"; // URL padrão caso o usuário não tenha foto
+
+                userNameElement.textContent = `${displayName}`;
+                userPhotoElement.src = photoURL;
+            } else {
+                console.log("Nenhum usuário autenticado.");
+                userNameElement.textContent = "Nenhum usuário autenticado.";
+                // Aqui você pode redirecionar para a página de login se necessário
+            }
+        });
+
         window.logout = function () {
             signOut(auth)
                 .then(() => {
@@ -89,20 +106,11 @@
                 });
         };
 
+        
+
     </script>
     <script src="talkback.js"></script>
-    <script>
-        function previewFoto(event) {
-            const reader = new FileReader();
-            const fotoPerfil = document.getElementById('fotoPerfil');
 
-            reader.onload = function () {
-                if (reader.readyState === 2) {
-                    fotoPerfil.src = reader.result;
-                }
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }</script>
 
 </body>
 

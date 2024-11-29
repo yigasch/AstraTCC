@@ -9,6 +9,60 @@
     <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
     <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
     <script src="talkback.js"></script>
+    <script type="module">
+        // Importar as funções do Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        // Inicializar o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app)
+
+        // Função para salvar receita no Firestore
+        window.salvarReceita = async function () {
+            const titulo = document.getElementById("titulo").value;
+            const ingredientes = document.getElementById("ingredientes").value;
+            const preparo = document.getElementById("preparo").value;
+
+            if (!titulo || !ingredientes || !preparo) {
+                alert("Por favor, preencha todos os campos antes de salvar.");
+                return;
+            }
+
+            try {
+                
+                await addDoc(collection(db, "receitas"), {
+                    titulo: titulo,
+                    ingredientes: ingredientes,
+                    preparo: preparo,
+                    uid: auth.currentUser?.uid || null,
+                });
+                alert("Receita salva com sucesso!");
+                // Limpa os campos
+                document.getElementById("titulo").value = "";
+                document.getElementById("ingredientes").value = "";
+                document.getElementById("preparo").value = "";
+                window.location = "receitas.html"
+            } catch (error) {
+                console.error("Erro ao salvar receita:", error);
+                alert("Erro ao salvar receita. Tente novamente.");
+            }
+        };
+    </script>
 </head>
 
 <body class="flex flex-col items-center justify-start">
@@ -58,21 +112,20 @@
     <main class="h-4/6 py-14 w-8/12 flex flex-col items-start justify-around text-mediumgray">
         <section class="space-y-4">
             <input type="text" name="titulo" id="titulo" required
-                class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Título">
-            <input type="text" name="descricao" id="desc"
-                class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none h-10" placeholder="Descrição">
+                class="p-2 w-full bg-lightgray rounded-full pl-4 focus:outline-none" placeholder="Título" />
+            <textarea type="text" name="descricao" id="ingredientes"
+                class="p-2 w-full bg-lightgray rounded-md pl-4 focus:outline-none h-28"
+                placeholder="Ingredientes"></textarea>
+            <textarea type="text" name="descricao" id="preparo"
+                class="p-2 w-full bg-lightgray rounded-md pl-4 focus:outline-none h-28"
+                placeholder="Modo de preparo"></textarea>
         </section>
 
-        <label for="imgReceita" id="labelImgReceita" class="text-mediumgray w-full h-auto flex justify-around">
-            <i class="fa-solid fa-image fa-3x"></i>
-            <p class="w-1/2">Insira uma imagem da sua receita.</p>
-        </label>
-        <input id="imgReceita" type="file" accept="image/*" onchange="previewImage(event)" hidden>
-        <div id="imgPreviewContainer" class="w-full h-auto flex justify-center mt-4"></div>
+
 
 
         <button
-            class="w-full bg-lightblue shadow-custominput p-2 rounded-full text-white text-lg roboto-bold align-self-end">Salvar
+            class="w-full bg-lightblue shadow-custominput p-2 rounded-full text-white text-lg roboto-bold align-self-end" onClick="salvarReceita()">Salvar
             receita
         </button>
     </main>

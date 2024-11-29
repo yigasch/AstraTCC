@@ -41,7 +41,7 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("Usuário autenticado:", user);
-                const displayName = user.displayName || "Usuário sem nome";
+                const displayName = user.displayName || "Usuário";
                 userNameElement.textContent = `Bem-vindo, ${displayName}`;
             } else {
                 console.log("Nenhum usuário autenticado.");

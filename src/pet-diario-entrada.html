@@ -68,7 +68,7 @@
 
                 // Limpa o sessionStorage e redireciona
                 sessionStorage.clear();
-                 window.location.href = "/src/pet-diario.html";
+                window.location.href = "/src/pet-diario.html";
             } catch (error) {
                 console.error("Erro ao salvar o diário:", error);
                 alert("Ocorreu um erro ao salvar o diário. Tente novamente.");
@@ -105,42 +105,19 @@
 
     <button id="saveBtn" class="bg-pink p-2 rounded-3xl shadow-custominput m-4 w-1/4 roboto-bold">Salvar</button>
     <script>
-        //     let mood = '';
-
         function moodCatcher() {
 
 
             document.querySelectorAll('.humor').forEach(btn => {
-                btn.classList.remove('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
-                btn.classList.add('bg-gray-300');
+                btn.classList.add('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
+                btn.classList.remove('bg-gray-300');
             });
 
             const clickedButton = document.getElementById(`btn${humor === 'feliz' ? 1 : humor === 'neutro' ? 2 : 3}`);
-            clickedButton.classList.remove('bg-gray-300');
-            clickedButton.classList.add('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
+            clickedButton.classList.add('bg-gray-300');
+            clickedButton.classList.remove('bg-blue-500', 'text-white', 'border-2', 'border-blue-700');
 
         }
-
-        //     document.getElementById('saveBtn').addEventListener('click', () => {
-        //         const text = document.getElementById('page').value.trim();
-
-        //         if (!mood) {
-        //             alert('Selecione um humor');
-        //             return;
-        //         }
-
-        //         if (!text) {
-        //             alert('Preencha o campo de texto antes de enviar');
-        //             return;
-        //         }
-
-        //         const now = new Date();
-        //         const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
-        //         localStorage.setItem(formattedDate, JSON.stringify({ text, mood }));
-
-        //         window.location.href = "pet-diario.html";
-        //     });
-
         function adjustTextarea() {
             const userInput = document.getElementById('page');
             userInput.style.height = 'auto';

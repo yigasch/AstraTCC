@@ -1,52 +1,93 @@
 const questions = [
+    // AUTOCONTROLE
     {
-        question: "Como você lida com estresse?",
+        question: "Como você reage a situações inesperadas?",
         theme: "autocontrole",
-        options: ["Pratico técnicas de relaxamento", "Converso com alguém de confiança", "Mantenho um diário pessoal", "Uso de distrações temporárias"]
+        options: [
+            "Mantenho a calma e procuro soluções",
+            "Fico ansioso(a), mas tento lidar",
+            "Sinto muita dificuldade para lidar",
+            "Evito lidar com a situação"
+        ]
     },
-
     {
-        question: "Você toma decisões impulsivas?",
+        question: "Você reserva um tempo para refletir antes de tomar decisões importantes?",
         theme: "autocontrole",
-        options: ["Não", "Muito raramente", "Sim, às vezes", "Sim, frequentemente"]
+        options: [
+            "Sempre",
+            "Na maioria das vezes",
+            "Raramente",
+            "Nunca"
+        ]
     },
 
+    // ENERGIA
     {
-        question: "Como voce se sente no seu dia a dia?",
+        question: "Você tem uma rotina de sono regular?",
         theme: "energia",
-        options: ["Muito energetico", "Relativamente energetico", "Cansado", "Totalmente esgotado"]
+        options: [
+            "Sim, sempre",
+            "Na maioria dos dias",
+            "Raramente",
+            "Nunca"
+        ]
     },
-
     {
-        question: "O quão frequentemente voce se sente consado ou desanimado?",
+        question: "Quantas horas de sono você costuma ter por noite?",
         theme: "energia",
-        options: ["Raramente", "Ocasionalmente", "frequentemente", "Muito frequentemente"]
+        options: [
+            "Mais de 8 horas",
+            "Entre 6 e 8 horas",
+            "Entre 4 e 6 horas",
+            "Menos de 4 horas"
+        ]
     },
 
+    // FOCO
     {
-        question: "Você consegue se concentrar facilmente?",
+        question: "Você tem o hábito de planejar suas atividades do dia?",
         theme: "foco",
-        options: ["consigo me concentrar facilmente", "Na maioria das vezes consigo me concentrar", "Às vezes tenho dificuldade para me concentrar", "Raramente consigo me concentrar"]
+        options: [
+            "Sempre planejo",
+            "Planejo na maioria dos dias",
+            "Raramente planejo",
+            "Nunca planejo"
+        ]
     },
-
     {
-        question: "Ao fazer uma tarefa chata ou desanimadora, você se destrai facilmente com seu telefone?",
+        question: "Você consegue finalizar tarefas sem procrastinar?",
         theme: "foco",
-        options: ["Raramente", "Ocasionalmente", "frequentemente", "Muito frequentemente"]
+        options: [
+            "Sim, sempre",
+            "Na maioria das vezes",
+            "Às vezes",
+            "Raramente"
+        ]
     },
 
+    // ALIMENTAÇÃO
     {
-        question: "Você considera a sua alimentação saldavel?",
+        question: "Com que frequência você prepara suas próprias refeições?",
         theme: "alimentacao",
-        options: ["Sim considero", "Na maioria das vezes", "Raramente considero", "Não, não considero"]
+        options: [
+            "Diariamente",
+            "Algumas vezes por semana",
+            "Raramente",
+            "Nunca"
+        ]
     },
-
     {
-        question: "O quão comumente você come porcarias? Ex: fastfood, doces e Etc...",
+        question: "Quantas porções de frutas e vegetais você consome por dia?",
         theme: "alimentacao",
-        options: ["Raramente", "Ocasionalmente", "frequentemente", "Muito frequentemente"]
+        options: [
+            "Mais de 5 porções",
+            "Entre 3 e 5 porções",
+            "Menos de 3 porções",
+            "Quase nunca como"
+        ]
     }
 ];
+
 
 let Index = 0;
 let scores = {

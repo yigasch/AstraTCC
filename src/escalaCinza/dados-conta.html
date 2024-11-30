@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados da conta</title>
+    <link rel="stylesheet" href="../output.css">
+    <link rel="shortcut icon" href="../assets/Persona.png" type="image/x-icon">v
+    <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
+    <script src="../talkback.js"></script>
+</head>
+
+<body class="roboto-bold flex flex-col items-center bg-[#252525]">
+    <header class="flex flex-row items-center p-2 space-x-5 w-screen py-4 bg-[#727272] text-white shadow-customlinear">
+        <a href="perfil.html"><i class="fa-solid fa-reply fa-2x"></i></a>
+        <h1 class="text-lg">Dados da conta</h1>
+    </header>
+
+    <main class="w-3/5 space-y-6 mt-14">
+        <label class="italic text-mediumgray flex flex-col">
+            Email
+            <input id="email" type="email" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
+        </label>
+        <label class="italic text-mediumgray flex flex-col">
+            Nome de usuário
+            <input id="username" type="text" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
+        </label>
+        <label class="italic text-mediumgray flex flex-col">
+            Senha
+            <input id="password" type="password" class="border-2 rounded-full p-1 px-4 roboto-medium text-sm">
+        </label>
+        <input type="button" id="updateButton" name="alt-dados" value="Alterar dados"
+            class="bg-[#727272] rounded-full p-2 text-white w-full">
+        <div>
+            <input type="button" name="exc-conta" value="Excluir conta"
+                class="bg-[#727272] rounded-full p-2 text-white w-full">
+            <p class="text-sm text-white roboto-medium mt-2">Essa ação não poderá ser desfeita!</p>
+        </div>
+
+        <script type="module">
+             import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, updateEmail, updatePassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppyF8BBxI1i3jbItczbdPk8WNX1D_bCE",
+            authDomain: "astra-f3359.firebaseapp.com",
+            projectId: "astra-f3359",
+            storageBucket: "astra-f3359.appspot.com",
+            messagingSenderId: "844343798659",
+            appId: "1:844343798659:web:e5490674bfa441b0c7a4b6",
+            measurementId: "G-XG6KGLP318"
+        };
+
+        // Inicializando o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Inicializando a autenticação
+        const db = getFirestore(app); // Inicializando o Firestore
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('updateButton').addEventListener('click', async () => {
+                const email = document.getElementById('email').value.trim();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                const user = auth.currentUser;
+
+                if (user) {
+                    try {
+                        // Atualizar email se fornecido
+                        if (email) {
+                            await updateEmail(user, email);
+                        }
+
+                        // Atualizar senha se fornecida
+                        if (password) {
+                            await updatePassword(user, password);
+                        }
+
+                        // Atualizar o nome de usuário no Firestore
+                        const userRef = doc(db, 'users', user.uid);
+                        await updateDoc(userRef, {
+                            username: username
+                        });
+
+                        alert('Dados atualizados com sucesso!');
+                    } catch (error) {
+                        console.error("Erro ao atualizar dados:", error);
+                        alert('Erro ao atualizar dados: ' + error.message);
+                    }
+                } else {
+                    alert('Usuário não está logado.');
+                }
+            });
+        });
+
+        </script>
+    </main>
+</body>
+
+</html>

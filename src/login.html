@@ -26,7 +26,6 @@
             measurementId: "G-XG6KGLP318"
         };
 
-        // Inicialize o Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
@@ -58,6 +57,7 @@
         window.logar = async function () {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
+            sessionStorage.setItem("status", 1);
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);

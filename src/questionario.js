@@ -14,11 +14,11 @@ const questions = [
     {
         question: "Como voce se sente no seu dia a dia?",
         theme: "energia",
-        options: ["Muito energético", "Relativamente energético", "Cansado", "Totalmente esgotado"]
+        options: ["Muito energetico", "Relativamente energetico", "Cansado", "Totalmente esgotado"]
     },
 
     {
-        question: "O quão frequentemente voce se sente cansado ou desanimado?",
+        question: "O quão frequentemente voce se sente consado ou desanimado?",
         theme: "energia",
         options: ["Raramente", "Ocasionalmente", "frequentemente", "Muito frequentemente"]
     },
@@ -30,19 +30,19 @@ const questions = [
     },
 
     {
-        question: "Ao fazer uma tarefa chata ou desanimadora, você se distrai facilmente com seu telefone?",
+        question: "Ao fazer uma tarefa chata ou desanimadora, você se destrai facilmente com seu telefone?",
         theme: "foco",
         options: ["Raramente", "Ocasionalmente", "frequentemente", "Muito frequentemente"]
     },
 
     {
-        question: "Você considera a sua alimentação saudável?",
+        question: "Você considera a sua alimentação saldavel?",
         theme: "alimentacao",
         options: ["Sim considero", "Na maioria das vezes", "Raramente considero", "Não, não considero"]
     },
 
     {
-        question: "O quão comumente você come fast-food, doces, etc?",
+        question: "O quão comumente você come porcarias? Ex: fastfood, doces e Etc...",
         theme: "alimentacao",
         options: ["Raramente", "Ocasionalmente", "frequentemente", "Muito frequentemente"]
     }

@@ -12,7 +12,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, getDoc, doc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
@@ -34,21 +34,34 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-
         const userNameElement = document.getElementById("user-name");
 
         // Função para verificar se o usuário está autenticado
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("Usuário autenticado:", user);
-                const displayName = user.displayName || "Usuário";
+        onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        try {
+            const userRef = doc(db, "users", user.uid); // Assume que o UID é o ID do documento
+            const userDoc = await getDoc(userRef);
+
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                const displayName = userData.username || "Usuário sem nome";
                 userNameElement.textContent = `Bem-vindo, ${displayName}`;
+                console.log("Usuário autenticado:", displayName);
             } else {
-                console.log("Nenhum usuário autenticado.");
-                userNameElement.textContent = "Nenhum usuário autenticado.";
-                // Aqui você pode redirecionar para a página de login se necessário
+                console.error("Documento do usuário não encontrado.");
+                userNameElement.textContent = "Usuário não encontrado.";
             }
-        });
+        } catch (error) {
+            console.error("Erro ao buscar o documento do usuário:", error);
+        }
+    } else {
+        console.log("Nenhum usuário autenticado.");
+        userNameElement.textContent = "Nenhum usuário autenticado.";
+        // Aqui você pode redirecionar para a página de login se necessário
+    }
+});
+
 
     </script>
 

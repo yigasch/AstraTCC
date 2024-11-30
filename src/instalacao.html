@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astra</title>
+    <link rel="manifest" href="manifest.json">
     <style>
         body{
             width: 100vw;
@@ -34,6 +35,13 @@
     <img src="assets/icone-tela-android.jpg" alt="Adc tela inicial">
     <p>E abaixo um exemplo no navegador Safari, em um dispositivo iOS:</p>
     <img src="assets/Adicionar-a-tela-de-inicio-do-iphone-.jpg" alt="Adc tela ios">
-    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
+        }
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
+        }
+    </script>
 </body>
 </html>

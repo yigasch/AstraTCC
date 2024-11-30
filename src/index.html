@@ -144,10 +144,10 @@
     <script>
         if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
             // Está rodando como PWA
-            window.location.href = '/login.html';
+            window.location.href = 'login.html';
         } else {
             // Está no navegador
-            window.location.href = '/instalacao.html';
+            window.location.href = 'instalacao.html';
         }
 
         if ('serviceWorker' in navigator) {

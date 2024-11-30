@@ -34,5 +34,13 @@
     <img src="icone-tela-android.jpg" alt="Adc tela inicial">
     <p>E abaixo um exemplo no navegador Safari, em um dispositivo iOS:</p>
     <img src="Adicionar-a-tela-de-inicio-do-iphone-.jpg" alt="Adc tela ios">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../pwabuilder-sw.js')
+        }
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('../pwabuilder-sw.js')
+        }
+    </script>
 </body>
 </html>

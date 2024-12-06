@@ -35,7 +35,7 @@
             signInWithPopup(auth, provider)
                 .then((result) => {
                     const user = result.user;
-                    window.location.href = './index.html';
+                    window.location.href = './inicio.html';
                 })
                 .catch((error) => {
                     console.error("Erro ao fazer login:", error);
@@ -47,7 +47,7 @@
             signInWithPopup(auth, provider)
                 .then((result) => {
                     const user = result.user;
-                    window.location.href = './index.html';
+                    window.location.href = './inicio.html';
                 })
                 .catch((error) => {
                     console.error("Erro ao fazer login:", error);
@@ -61,7 +61,7 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                window.location.href = './index.html';
+                window.location.href = './inicio.html';
             } catch (error) {
                 console.error("Erro ao fazer login:", error);
                 alert('Erro ao fazer login: ' + error.message);

@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astra</title>
+    <title>Cadastro</title>
     <link rel="stylesheet" href="output.css">
-    <link rel="shortcut icon" href="assets/Persona.png" type="image/x-icon">
-    <script src="https://kit.fontawesome.com/29fd0dd4d2.js" crossorigin="anonymous"></script>
 
     <script type="module">
+        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, getDoc, doc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs,  doc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
@@ -33,131 +32,114 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const userNameElement = document.getElementById("user-name");
 
-        // Função para verificar se o usuário está autenticado
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                try {
-                    const userRef = doc(db, "users", user.uid); // Assume que o UID é o ID do documento
-                    const userDoc = await getDoc(userRef);
+        window.loginComGoogle = function () {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    window.location.href = './questionario.html';
+                })
+                .catch((error) => {
+                    console.error("Erro ao fazer login:", error);
+                });
+        };
 
-                    if (userDoc.exists()) {
-                        const userData = userDoc.data();
-                        const displayName = userData.username || "Usuário sem nome";
-                        userNameElement.textContent = `Bem-vindo, ${displayName}`;
-                        console.log("Usuário autenticado:", displayName);
-                    } else {
-                        console.error("Documento do usuário não encontrado.");
-                        userNameElement.textContent = "Usuário não encontrado.";
-                    }
-                } catch (error) {
-                    console.error("Erro ao buscar o documento do usuário:", error);
-                }
-            } else {
-                console.log("Nenhum usuário autenticado.");
-                userNameElement.textContent = "Nenhum usuário autenticado.";
-                // Aqui você pode redirecionar para a página de login se necessário
-            }
+
+        window.loginComFacebook = function () {
+            const provider = new FacebookAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    window.location.href = './questionario.html';
+                })
+                .catch((error) => {
+                    console.error("Erro ao fazer login:", error);
+                });
+        };
+
+
+
+        window.cadastro = async function () {
+    try {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const username = document.getElementById("username").value.trim();
+
+        // Verificar se os campos estão preenchidos
+        if (!email || !password || !username) {
+            alert("Preencha todos os campos.");
+            return;
+        }
+
+        // Criar usuário com email e senha
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+        // Obter o UID do usuário criado
+        const userId = userCredential.user.uid;
+
+        // Criar documento no Firestore para armazenar o nome de usuário
+        await setDoc(doc(db, "users", userId), {
+            email: email,
+            username: username, // Nome do usuário
+            createdAt: new Date().toISOString() // Data de criação
         });
 
+        console.log("Usuário criado e salvo no Firestore:", userCredential);
+
+        // Redirecionar para a página de login
+        window.location.href = './questionario.html';
+    } catch (error) {
+        console.error("Erro ao criar conta:", error);
+        alert("Ocorreu um erro ao criar a conta: " + error.message);
+    }
+};
+
 
     </script>
-
 </head>
 
-<body class="flex flex-col items-center">
-    <!-- navbar inferior -->
-    <nav
-        class="fixed bottom-0 w-screen flex justify-around z-10 mb-3 *:flex *:flex-col *:items-center *:text-[#6C37B1] *:justify-between h-10 roboto-bold">
-        <a href="index.html">
-            <i class="fa-solid fa-house fa-xl"></i>
-            Home</a>
-        <a href="tarefas.html">
-            <i class="fa-solid fa-list-check fa-xl"></i>
-            Tarefas</a>
-        <a href="pet.html" class="w-1/6"></a>
-        <a href="receitas.html">
-            <i class="fa-solid fa-utensils fa-xl"></i>
-            Receitas</a>
-        <a href="artigos.html">
-            <i class="fa-solid fa-newspaper fa-xl"></i>
-            Artigos</a>
-    </nav>
+<body
+    class="bg-gradient-to-br from-[#B8E0F7] via-[#8BC8F2] to-[#378ae8] flex flex-col items-center text-white font-roboto">
+    <img src="assets/bar-cadastro.png" class="bottom-0 fixed w-screen">
 
-    <footer class="fixed bottom-0 w-screen z-0">
-        <svg class="w-full h-auto" viewBox="0 0 390 79" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M0 0H97.5H124.623C137.281 0 148.263 8.74033 151.103 21.0758L151.852 24.3303C153.9 33.222 158.667 41.2546 165.491 47.3111C182.273 62.2045 207.649 61.986 224.242 46.8826C230.594 41.1005 235.137 33.5669 237.272 25.2468L238.244 21.4574C241.484 8.82977 252.866 0 265.902 0H292.5H390V79H0V0Z"
-                fill="#C566F5" />
-        </svg>
-    </footer>
+    <div class="flex flex-col items-center my-10">
+        <img src="assets/Astra-icon.png" class="w-20">
+        <h1 class="font-semibold text-2xl">Junte-se ao Astra!</h1>
+    </div>
 
-    <a class="fixed bottom-0 mb-12 flex items-center justify-center" href="pet.html">
-        <svg class="z-0 h-20 w-20 absolute" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="40" r="39" fill="#F56670" stroke="#868686" stroke-opacity="0.9" />
-        </svg>
-        <img src="assets/icon/pet-head.png" alt="Pet" class="z-20">
-    </a>
+    <div class="flex flex-col items-center *:rounded-3xl *:py-2 *:w-full w-7/12">
 
-    <header class="w-screen h-auto flex justify-between items-center text-blue">
-        <img src="assets/Astra-icon.png" alt="Astra-icon">
-        <div class="roboto-bold text-lg" id="user-name">Carregando...</div>
-        <a href="perfil.html"><i class="fa-solid fa-user fa-2xl m-4"></i></a>
-    </header>
-    <main class="flex flex-col items-center justify-center text-white mt-8">
-        <a href="nova-tarefa.html" class="bg-[#9C70D4] p-4 rounded-3xl flex justify-around items-center w-10/12 mt-6">
-            <div>
-                <h1 class="roboto-bold text-xl">Criar tarefa</h1>
-                <p class="w-4/5 text-sm">Organize seu dia: liste suas tarefas e metas.</p>
-            </div>
-            <div>
-                <i class="fa-solid fa-bars-progress fa-3x"></i>
-            </div>
-        </a>
-        <a href="pet-diario-entrada.html"
-            class="bg-[#6399BD] p-4 rounded-3xl flex justify-around items-center w-10/12 mt-4">
-            <div>
-                <h1 class="roboto-bold text-xl">Escrever no diário</h1>
-                <p class="w-4/5 text-sm">Compartilhe o que aconteceu e como você se sentiu.</p>
-            </div>
-            <div>
-                <i class="fa-solid fa-pen-to-square fa-3x"></i>
-            </div>
-        </a>
-        <section class="flex justify-between items-center w-10/12 mt-4">
-            <a href="meditacao.html"
-                class="bg-[#ED747D] flex flex-col items-center justify-center p-4 rounded-xl w-[45%]">
-                <h1 class="roboto-bold text-xl mb-2">Meditação</h1>
-                <i class="fa-solid fa-hourglass-half fa-2x"></i>
-            </a>
-            <a href="checkup.html"
-                class="bg-[#ED747D] flex flex-col items-center justify-center p-4 rounded-xl w-[45%]">
-                <h1 class="roboto-bold text-xl mb-2">Check up</h1>
-                <i class="fa-regular fa-heart fa-2x"></i>
-            </a>
+        <input id="email" type="text" name="" placeholder="Email"
+            class="pl-5 placeholder:text-sm mb-3  text-[#9B9B9B] focus:outline-none shadow-custominput" required>
+
+        <input id="username" type="text" name="" placeholder="Usuário"
+            class="pl-5  placeholder:text-sm mb-3  text-[#9B9B9B] focus:outline-none shadow-custominput" required>
+
+        <input id="password" type="password" name="" placeholder="Senha"
+            class="pl-5 placeholder:text-sm  text-[#9B9B9B] focus:outline-none shadow-custominput" required>
+
+        <ul class="text-xs mt-1 *:font-medium">
+            <li class="">Mínimo de 8 caracteres</li>
+            <li class="">Uma letra maiúscula</li>
+            <li class="">Um símbolo ou número</li>
+        </ul>
+        <button onclick="cadastro()" class="bg-[#4C5DC2] mt-6 font-bold">Cadastrar-se</button>
+    </div>
+
+    <div class="flex flex-col items-center text-[#9B9B9B] w-9/12 z-10 fixed bottom-0 h-1/4 space-y-8">
+        <section class="w-full">
+            <h3 class="mb-3 text-center">Você também pode entrar com</h3>
+            <section class="flex flex-row justify-around text-white w-full *:rounded-3xl *:w-2/5">
+                <button onclick="loginComGoogle()" class="bg-[#D44A4A] p-2">Google</button>
+                <button onclick="loginComFacebook()" class="bg-[#3E5DCD] p-2">Facebook</button>
+            </section>
         </section>
 
-
-    </main>
-
-    <script>
-        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-            // Está rodando como PWA
-            window.location.href = 'login.html';
-        } else {
-            // Está no navegador
-            window.location.href = 'instalacao.html';
-        }
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('pwabuilder-sw.js')
-        }
-        if (typeof navigator.serviceWorker !== 'undefined') {
-            navigator.serviceWorker.register('pwabuilder-sw.js')
-        }
-    </script>
-    <script src="talkback.js"></script>
+        <section class="flex flex-col items-center">
+            <h3>Já tem uma conta?</h3>
+            <a href="login.html" class="font-extrabold text-[#868686]">Faça login</a>
+    </div>
 
 </body>
 
